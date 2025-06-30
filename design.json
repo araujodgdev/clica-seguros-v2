@@ -1,0 +1,275 @@
+{
+    "designSystemProfile": {
+      "name": "Modern Fintech UI System",
+      "description": "A contemporary financial technology design system emphasizing trust, efficiency, and modern digital banking aesthetics",
+      
+      "colorPalette": {
+        "primary": {
+          "vibrantYellow": "#F4FF00",
+          "description": "Electric lime-yellow used for CTAs and accent elements",
+          "usage": "Primary buttons, highlights, key metrics, brand accent"
+        },
+        "neutrals": {
+          "offWhite": "#F8F8F6",
+          "lightGray": "#E8E8E6", 
+          "mediumGray": "#A8A8A6",
+          "darkGray": "#2A2A28",
+          "charcoal": "#1A1A18",
+          "description": "Sophisticated neutral palette with warm undertones",
+          "usage": "Backgrounds, text, borders, cards"
+        },
+        "accent": {
+          "forestGreen": "#2D5233",
+          "emeraldGreen": "#3A6B42",
+          "description": "Deep greens conveying stability and growth",
+          "usage": "Secondary sections, trust indicators, financial data"
+        },
+        "gradients": {
+          "heroGradient": "linear-gradient(135deg, #2D5233 0%, #1A3D20 100%)",
+          "cardGradient": "linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)"
+        }
+      },
+  
+      "typography": {
+        "fontFamily": {
+          "primary": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+          "fallback": "system-ui, sans-serif"
+        },
+        "fontWeights": {
+          "light": 300,
+          "regular": 400,
+          "medium": 500,
+          "semibold": 600,
+          "bold": 700
+        },
+        "scale": {
+          "hero": {
+            "fontSize": "clamp(2.5rem, 5vw, 4rem)",
+            "lineHeight": "1.1",
+            "fontWeight": 700,
+            "letterSpacing": "-0.02em"
+          },
+          "h1": {
+            "fontSize": "clamp(2rem, 4vw, 3rem)",
+            "lineHeight": "1.2", 
+            "fontWeight": 600,
+            "letterSpacing": "-0.01em"
+          },
+          "h2": {
+            "fontSize": "clamp(1.5rem, 3vw, 2.25rem)",
+            "lineHeight": "1.3",
+            "fontWeight": 600
+          },
+          "body": {
+            "fontSize": "1rem",
+            "lineHeight": "1.6",
+            "fontWeight": 400
+          },
+          "caption": {
+            "fontSize": "0.875rem",
+            "lineHeight": "1.4",
+            "fontWeight": 500,
+            "letterSpacing": "0.01em"
+          },
+          "micro": {
+            "fontSize": "0.75rem",
+            "lineHeight": "1.3",
+            "fontWeight": 400,
+            "opacity": 0.7
+          }
+        }
+      },
+  
+      "layoutSystem": {
+        "containerMaxWidth": "1200px",
+        "gridSystem": {
+          "columns": 12,
+          "gutters": {
+            "mobile": "1rem",
+            "tablet": "1.5rem", 
+            "desktop": "2rem"
+          }
+        },
+        "spacing": {
+          "xs": "0.5rem",
+          "sm": "1rem",
+          "md": "1.5rem",
+          "lg": "2rem",
+          "xl": "3rem",
+          "xxl": "4rem",
+          "xxxl": "6rem"
+        },
+        "sectionSpacing": {
+          "vertical": "clamp(4rem, 8vw, 8rem)",
+          "betweenElements": "clamp(2rem, 4vw, 4rem)"
+        }
+      },
+  
+      "componentPatterns": {
+        "heroSection": {
+          "structure": "Split layout with content left, visual right",
+          "background": "Gradient overlay with subtle texture",
+          "contentAlignment": "Left-aligned with strong hierarchy",
+          "visualTreatment": "Floating cards with depth, glassy effects"
+        },
+        
+        "cards": {
+          "primary": {
+            "background": "rgba(255,255,255,0.95)",
+            "borderRadius": "1rem",
+            "boxShadow": "0 8px 32px rgba(0,0,0,0.1)",
+            "backdropFilter": "blur(10px)",
+            "border": "1px solid rgba(255,255,255,0.2)"
+          },
+          "floating": {
+            "transform": "translateY(-8px)",
+            "transition": "all 0.3s ease",
+            "hover": {
+              "transform": "translateY(-12px)",
+              "boxShadow": "0 16px 48px rgba(0,0,0,0.15)"
+            }
+          }
+        },
+  
+        "buttons": {
+          "primary": {
+            "background": "#F4FF00",
+            "color": "#1A1A18",
+            "borderRadius": "0.5rem",
+            "padding": "0.75rem 1.5rem",
+            "fontWeight": 600,
+            "fontSize": "0.875rem",
+            "textTransform": "uppercase",
+            "letterSpacing": "0.05em",
+            "transition": "all 0.2s ease",
+            "hover": {
+              "background": "#E6F000",
+              "transform": "translateY(-1px)"
+            }
+          },
+          "secondary": {
+            "background": "transparent",
+            "color": "#2A2A28",
+            "border": "1.5px solid #2A2A28",
+            "borderRadius": "0.5rem",
+            "padding": "0.75rem 1.5rem"
+          }
+        },
+  
+        "dataVisualization": {
+          "metricsCards": {
+            "background": "rgba(255,255,255,0.9)",
+            "borderRadius": "0.75rem",
+            "padding": "1.5rem",
+            "numberStyle": {
+              "fontSize": "2.5rem",
+              "fontWeight": 700,
+              "color": "#1A1A18"
+            },
+            "labelStyle": {
+              "fontSize": "0.875rem",
+              "fontWeight": 500,
+              "color": "#666664",
+              "textTransform": "uppercase"
+            }
+          }
+        }
+      },
+  
+      "visualEffects": {
+        "glassmorphism": {
+          "background": "rgba(255,255,255,0.1)",
+          "backdropFilter": "blur(10px)",
+          "border": "1px solid rgba(255,255,255,0.2)",
+          "boxShadow": "0 8px 32px rgba(0,0,0,0.1)"
+        },
+        "elevation": {
+          "level1": "0 2px 8px rgba(0,0,0,0.08)",
+          "level2": "0 4px 16px rgba(0,0,0,0.12)", 
+          "level3": "0 8px 32px rgba(0,0,0,0.16)",
+          "level4": "0 16px 48px rgba(0,0,0,0.2)"
+        },
+        "animations": {
+          "fadeInUp": {
+            "duration": "0.6s",
+            "easing": "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            "delay": "staggered by 0.1s"
+          },
+          "floatingElements": {
+            "transform": "translateY(var(--float-distance, -8px))",
+            "duration": "2s",
+            "easing": "ease-in-out",
+            "direction": "alternate",
+            "iteration": "infinite"
+          }
+        }
+      },
+  
+      "layoutPatterns": {
+        "heroLayout": {
+          "display": "grid",
+          "gridTemplate": "1fr / 1fr 1fr",
+          "alignItems": "center",
+          "gap": "4rem",
+          "minHeight": "80vh",
+          "responsive": {
+            "mobile": "1fr / 1fr (stacked)"
+          }
+        },
+        
+        "featureGrid": {
+          "display": "grid",
+          "gridTemplate": "auto / repeat(auto-fit, minmax(300px, 1fr))",
+          "gap": "2rem",
+          "alignItems": "start"
+        },
+  
+        "splitContent": {
+          "display": "grid", 
+          "gridTemplate": "1fr / 2fr 1fr",
+          "gap": "3rem",
+          "alignItems": "center"
+        }
+      },
+  
+      "responsiveBreakpoints": {
+        "mobile": "320px",
+        "tablet": "768px", 
+        "desktop": "1024px",
+        "wide": "1200px"
+      },
+  
+      "designPrinciples": {
+        "hierarchy": "Strong typographic hierarchy with clear information prioritization",
+        "spacing": "Generous whitespace with consistent rhythm and vertical spacing",
+        "contrast": "High contrast between elements, subtle color relationships", 
+        "depth": "Layered depth through shadows, transparency, and z-axis positioning",
+        "motion": "Subtle, purposeful animations that enhance rather than distract",
+        "trust": "Professional color palette and typography choices that convey financial stability",
+        "modern": "Contemporary web aesthetics with cutting-edge visual effects",
+        "accessibility": "Sufficient color contrast and scalable typography system"
+      },
+  
+      "contentStructure": {
+        "heroMessage": {
+          "pattern": "Bold value proposition + supporting details + clear CTA",
+          "emphasis": "Developer-focused infrastructure messaging"
+        },
+        "featureSections": {
+          "pattern": "Icon/visual + headline + description + metrics/proof",
+          "layout": "Alternating left-right content blocks"
+        },
+        "socialProof": {
+          "pattern": "Quantified metrics + customer logos + testimonials",
+          "presentation": "Integrated naturally within feature sections"
+        }
+      },
+  
+      "implementationNotes": {
+        "cssFramework": "Tailwind CSS compatible with custom design tokens",
+        "jsFramework": "React/Next.js optimized component structure", 
+        "performance": "Optimized for Core Web Vitals with lazy loading and progressive enhancement",
+        "accessibility": "WCAG 2.1 AA compliant with semantic HTML and ARIA labels"
+      }
+    }
+  }

@@ -1,26 +1,91 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-primary: #F4FF00;
+  --color-neutral-off-white: #F8F8F6;
+  --color-neutral-light-gray: #E8E8E6;
+  --color-neutral-medium-gray: #A8A8A6;
+  --color-neutral-dark-gray: #2A2A28;
+  --color-neutral-charcoal: #1A1A18;
+  --color-accent-forest-green: #2D5233;
+  --color-accent-emerald-green: #3A6B42;
+  
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  
+  --font-size-hero: clamp(2.5rem, 5vw, 4rem);
+  --font-size-h1: clamp(2rem, 4vw, 3rem);
+  --font-size-h2: clamp(1.5rem, 3vw, 2.25rem);
+  --font-size-body: 1rem;
+  --font-size-caption: 0.875rem;
+  --font-size-micro: 0.75rem;
+  
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  --spacing-xxl: 4rem;
+  --spacing-xxxl: 6rem;
+  
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-wide: 1200px;
+  
+  --radius-default: 1rem;
+  --radius-card: 1rem;
+  --radius-button: 0.5rem;
+  
+  --shadow-elevation-1: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-elevation-2: 0 4px 16px rgba(0,0,0,0.12);
+  --shadow-elevation-3: 0 8px 32px rgba(0,0,0,0.16);
+  --shadow-elevation-4: 0 16px 48px rgba(0,0,0,0.2);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  body {
+    background-color: var(--color-neutral-off-white);
+    color: var(--color-neutral-dark-gray);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  h1, .h1 { 
+    font-size: var(--font-size-h1);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+  
+  h2, .h2 { 
+    font-size: var(--font-size-h2);
+    line-height: 1.3;
+    font-weight: 600;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(-4px); }
+  50% { transform: translateY(4px); }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@utility fadeInUp {
+  animation: fadeInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@utility float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@utility marquee {
+  animation: marquee 30s linear infinite;
 }
