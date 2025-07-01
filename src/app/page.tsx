@@ -12,7 +12,6 @@ export default function Home() {
     <main className="bg-neutral-off-white">
       <HeroSection />
       <SinistroSemEstresseSection />
-      <ComoFuncionaSection />
       <NossoCompromissoSection />
       <ParaTodosOsCarrosSection />
       <SocialProofSection />
