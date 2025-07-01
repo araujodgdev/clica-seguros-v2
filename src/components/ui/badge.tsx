@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { motion } from 'framer-motion'
+import { motion, type HTMLMotionProps } from 'framer-motion'
 
 const badgeVariants = cva(
   'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-all duration-200',
@@ -36,10 +36,11 @@ const badgeVariants = cva(
 )
 
 export interface BadgeProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends Omit<HTMLMotionProps<'div'>, 'ref' | 'children'>,
     VariantProps<typeof badgeVariants> {
   icon?: React.ReactNode
   onRemove?: () => void
+  children?: React.ReactNode
 }
 
 const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
