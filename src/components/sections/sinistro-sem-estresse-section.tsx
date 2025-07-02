@@ -103,7 +103,7 @@ function PhoneMockup({ step, isActive }: { step: typeof steps[0], isActive: bool
                   key={i}
                   className="h-1 flex-1 rounded-full bg-neutral-light-gray"
                   animate={{
-                    backgroundColor: i <= step.id ? '#F4FF00' : '#E8E8E6'
+                    backgroundColor: i <= step.id ? '#52C41A' : '#E8E8E6'
                   }}
                   transition={{ duration: 0.3 }}
                 />

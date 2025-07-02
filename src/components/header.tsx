@@ -203,7 +203,7 @@ function MegaMenu({ item, isOpen }: { item: typeof navLinks[0], isOpen: boolean 
                   transition={{ delay: index * 0.1 }}
                   whileHover={{ x: 5, transition: { duration: 0.2 } }}
                 >
-                  <div className="flex-shrink-0 rounded-xl bg-primary/10 p-4 transition-all group-hover:bg-primary/20 group-hover:scale-110">
+                  <div className=" rounded-xl bg-primary/10 transition-all group-hover:bg-primary/20 group-hover:scale-110">
                     <subitem.icon className="h-6 w-6 text-primary" />
                   </div>
                   <div className="flex-1">

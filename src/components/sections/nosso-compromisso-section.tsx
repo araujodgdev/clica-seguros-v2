@@ -303,7 +303,7 @@ export function NossoCompromissoSection() {
               >
                 <path
                   d="M5,15 Q50,0 95,15"
-                  stroke="#F4FF00"
+                  stroke="#52C41A"
                   strokeWidth="4"
                   fill="none"
                 />

@@ -293,7 +293,7 @@ export function ParaTodosOsCarrosSection() {
         <motion.div
           className="h-full bg-repeating-linear-gradient"
           style={{
-            backgroundImage: 'repeating-linear-gradient(90deg, #F4FF00 0, #F4FF00 20px, transparent 20px, transparent 40px)',
+            backgroundImage: 'repeating-linear-gradient(90deg, #52C41A 0, #52C41A 20px, transparent 20px, transparent 40px)',
           }}
           animate={{ x: [0, 40] }}
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}

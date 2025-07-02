@@ -216,7 +216,7 @@ export function SocialProofSection() {
               >
                 <path
                   d="M5,20 Q50,5 95,20"
-                  stroke="#F4FF00"
+                  stroke="#52C41A"
                   strokeWidth="3"
                   fill="none"
                 />

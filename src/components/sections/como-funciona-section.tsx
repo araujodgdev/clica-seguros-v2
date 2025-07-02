@@ -143,7 +143,7 @@ function ConnectionLine({ progress }: { progress: number }) {
       />
       <motion.path
         d="M0,4 L1000,4"
-        stroke="#F4FF00"
+                        stroke="#52C41A"
         strokeWidth="3"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: progress }}
