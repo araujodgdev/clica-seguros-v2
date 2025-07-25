@@ -7,7 +7,7 @@
   - Write unit tests for validation logic
   - _Requirements: 1.2, 1.3_
 
-- [ ] 2. Create mock data services
+- [x] 2. Create mock data services
   - Implement mock car database with realistic vehicle information mapped to license plates
   - Create mock insurance offers data with varied pricing and coverage options
   - Build data service functions to simulate API calls with realistic delays

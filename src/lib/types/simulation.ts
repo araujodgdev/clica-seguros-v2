@@ -16,6 +16,15 @@ export interface CarDetails {
   estimatedValue: number
 }
 
+export interface CoverageDetails {
+  collision: boolean
+  theft: boolean
+  fire: boolean
+  naturalDisasters: boolean
+  thirdPartyLiability: number
+  personalAccident: number
+}
+
 export interface InsuranceOffer {
   id: string
   insurerName: string
@@ -23,6 +32,8 @@ export interface InsuranceOffer {
   coverageHighlights: string[]
   savings: number
   rating: number
+  deductible: number
+  coverageDetails: CoverageDetails
 }
 
 export interface ValidationError {
