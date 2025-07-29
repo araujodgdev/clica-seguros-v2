@@ -21,15 +21,25 @@ const ERROR_MESSAGES = {
     required: 'Nome é obrigatório',
     invalid: 'Nome deve conter apenas letras e espaços',
     minLength: 'Nome deve ter pelo menos 2 caracteres',
-    maxLength: 'Nome deve ter no máximo 100 caracteres'
+    maxLength: 'Nome deve ter no máximo 100 caracteres',
+    tooShort: 'Nome muito curto. Digite seu nome completo',
+    invalidChars: 'Nome contém caracteres inválidos',
+    onlySpaces: 'Nome não pode conter apenas espaços'
   },
   email: {
     required: 'E-mail é obrigatório',
-    invalid: 'E-mail deve ter um formato válido'
+    invalid: 'E-mail deve ter um formato válido',
+    invalidDomain: 'Domínio do e-mail inválido',
+    tooLong: 'E-mail muito longo (máximo 254 caracteres)',
+    commonTypos: 'Verifique se digitou o e-mail corretamente'
   },
   licensePlate: {
     required: 'Placa é obrigatória',
-    invalid: 'Placa deve estar no formato ABC-1234 ou ABC1D23'
+    invalid: 'Placa deve estar no formato ABC-1234 ou ABC1D23',
+    tooShort: 'Placa incompleta. Digite todos os caracteres',
+    tooLong: 'Placa muito longa. Verifique o formato',
+    invalidFormat: 'Formato de placa não reconhecido',
+    invalidChars: 'Placa contém caracteres inválidos'
   }
 }
 
@@ -48,7 +58,7 @@ export function sanitizeLicensePlate(value: string): string {
 }
 
 /**
- * Validates a name field
+ * Validates a name field with enhanced error checking
  */
 export function validateName(name: string): FieldValidationResult {
   const sanitized = sanitizeString(name)

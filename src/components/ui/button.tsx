@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { motion, HTMLMotionProps } from 'framer-motion'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] select-none',
+  'inline-flex items-center justify-center font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none',
   {
     variants: {
       variant: {
@@ -20,8 +20,8 @@ const buttonVariants = cva(
       size: {
         default: 'h-10 px-4 py-2 text-sm rounded-button',
         sm: 'h-8 px-3 text-xs rounded-button',
-        lg: 'h-12 px-6 text-base rounded-button',
-        xl: 'h-14 px-8 text-lg rounded-button',
+        lg: 'h-12 px-6 text-base rounded-button min-h-[48px]',
+        xl: 'h-14 px-8 text-lg rounded-button min-h-[56px]',
         icon: 'h-10 w-10 rounded-button',
       },
       roundness: {
@@ -64,7 +64,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={buttonVariants({ variant, size, roundness, className })}
         ref={ref}
         disabled={disabled || isLoading}
-        whileTap={{ scale: 0.98 }}
         {...props}
       >
         {isLoading ? (

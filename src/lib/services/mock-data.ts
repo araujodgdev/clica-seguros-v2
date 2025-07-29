@@ -175,7 +175,9 @@ const FALLBACK_CAR: CarDetails = {
 const ERROR_SIMULATION = {
   networkErrorRate: 0.05, // 5% chance of network error
   invalidPlateRate: 0.1,  // 10% chance of treating valid plate as invalid
-  timeoutRate: 0.02       // 2% chance of timeout
+  timeoutRate: 0.02,      // 2% chance of timeout
+  serverErrorRate: 0.03,  // 3% chance of server error
+  rateLimitRate: 0.01     // 1% chance of rate limit error
 }
 
 // Utility function to simulate network delay
@@ -189,27 +191,104 @@ const shouldSimulateError = (rate: number): boolean => {
   return Math.random() < rate
 }
 
+// Enhanced error types for better error handling
+export enum ErrorType {
+  NETWORK_ERROR = 'NETWORK_ERROR',
+  TIMEOUT_ERROR = 'TIMEOUT_ERROR',
+  INVALID_PLATE = 'INVALID_PLATE',
+  SERVER_ERROR = 'SERVER_ERROR',
+  RATE_LIMIT = 'RATE_LIMIT',
+  VALIDATION_ERROR = 'VALIDATION_ERROR'
+}
+
+export class SimulationError extends Error {
+  constructor(
+    message: string,
+    public type: ErrorType,
+    public retryable: boolean = true,
+    public userFriendlyMessage?: string
+  ) {
+    super(message)
+    this.name = 'SimulationError'
+  }
+}
+
 // Service function to get car details by license plate
 export const getCarDetailsByPlate = async (licensePlate: string): Promise<CarDetails> => {
+  // Validate input
+  if (!licensePlate || licensePlate.trim().length === 0) {
+    throw new SimulationError(
+      'License plate is required',
+      ErrorType.VALIDATION_ERROR,
+      false,
+      'Por favor, informe a placa do veículo.'
+    )
+  }
+
   // Simulate network delay
   await simulateDelay(1000, 2500)
   
+  // Simulate server error
+  if (shouldSimulateError(ERROR_SIMULATION.serverErrorRate)) {
+    throw new SimulationError(
+      'Internal server error',
+      ErrorType.SERVER_ERROR,
+      true,
+      'Nossos servidores estão temporariamente indisponíveis. Tente novamente em alguns instantes.'
+    )
+  }
+  
+  // Simulate rate limit error
+  if (shouldSimulateError(ERROR_SIMULATION.rateLimitRate)) {
+    throw new SimulationError(
+      'Rate limit exceeded',
+      ErrorType.RATE_LIMIT,
+      true,
+      'Muitas tentativas em pouco tempo. Aguarde alguns segundos e tente novamente.'
+    )
+  }
+  
   // Simulate network error
   if (shouldSimulateError(ERROR_SIMULATION.networkErrorRate)) {
-    throw new Error('Erro de conexão. Tente novamente.')
+    throw new SimulationError(
+      'Network connection failed',
+      ErrorType.NETWORK_ERROR,
+      true,
+      'Erro de conexão. Verifique sua internet e tente novamente.'
+    )
   }
   
   // Simulate timeout error
   if (shouldSimulateError(ERROR_SIMULATION.timeoutRate)) {
-    throw new Error('Tempo limite excedido. Verifique sua conexão.')
+    throw new SimulationError(
+      'Request timeout',
+      ErrorType.TIMEOUT_ERROR,
+      true,
+      'A consulta demorou mais que o esperado. Tente novamente.'
+    )
   }
   
   // Normalize license plate format (remove hyphens and convert to uppercase)
-  const normalizedPlate = licensePlate.replace('-', '').toUpperCase()
+  const normalizedPlate = licensePlate.replace(/[\s-]/g, '').toUpperCase()
+  
+  // Validate license plate format
+  if (!validateLicensePlate(normalizedPlate)) {
+    throw new SimulationError(
+      'Invalid license plate format',
+      ErrorType.VALIDATION_ERROR,
+      false,
+      'Formato de placa inválido. Use o formato ABC-1234 ou ABC1D23.'
+    )
+  }
   
   // Simulate treating valid plate as invalid occasionally
   if (shouldSimulateError(ERROR_SIMULATION.invalidPlateRate)) {
-    throw new Error('Placa não encontrada em nossa base de dados.')
+    throw new SimulationError(
+      'License plate not found in database',
+      ErrorType.INVALID_PLATE,
+      true,
+      'Placa não encontrada em nossa base de dados. Verifique se digitou corretamente.'
+    )
   }
   
   // Return car details if found, otherwise return fallback
@@ -225,17 +304,52 @@ export const getCarDetailsByPlate = async (licensePlate: string): Promise<CarDet
 
 // Service function to get insurance offers based on car details
 export const getInsuranceOffers = async (carDetails: CarDetails): Promise<InsuranceOffer[]> => {
+  // Validate input
+  if (!carDetails || !carDetails.make || !carDetails.model) {
+    throw new SimulationError(
+      'Invalid car details provided',
+      ErrorType.VALIDATION_ERROR,
+      false,
+      'Dados do veículo inválidos. Tente reiniciar a simulação.'
+    )
+  }
+
   // Simulate network delay
   await simulateDelay(2000, 4000)
   
+  // Simulate server error
+  if (shouldSimulateError(ERROR_SIMULATION.serverErrorRate)) {
+    throw new SimulationError(
+      'Server error while fetching quotes',
+      ErrorType.SERVER_ERROR,
+      true,
+      'Erro interno do servidor. Tente novamente em alguns instantes.'
+    )
+  }
+  
   // Simulate network error
   if (shouldSimulateError(ERROR_SIMULATION.networkErrorRate)) {
-    throw new Error('Erro ao buscar cotações. Tente novamente.')
+    throw new SimulationError(
+      'Network error while fetching quotes',
+      ErrorType.NETWORK_ERROR,
+      true,
+      'Erro de conexão ao buscar cotações. Verifique sua internet e tente novamente.'
+    )
+  }
+  
+  // Simulate timeout error
+  if (shouldSimulateError(ERROR_SIMULATION.timeoutRate)) {
+    throw new SimulationError(
+      'Timeout while fetching quotes',
+      ErrorType.TIMEOUT_ERROR,
+      true,
+      'A busca por cotações demorou mais que o esperado. Tente novamente.'
+    )
   }
   
   // Calculate adjusted premiums based on car value
   const baseValue = 50000 // Reference value for base premiums
-  const adjustmentFactor = carDetails.estimatedValue / baseValue
+  const adjustmentFactor = Math.max(0.5, Math.min(3.0, carDetails.estimatedValue / baseValue)) // Cap adjustment factor
   
   // Create adjusted offers based on car value
   const adjustedOffers = MOCK_OFFERS.map(offer => ({
@@ -254,16 +368,51 @@ export const getInsuranceOffers = async (carDetails: CarDetails): Promise<Insura
 
 // Service function to get specific offer details
 export const getOfferDetails = async (offerId: string): Promise<InsuranceOffer | null> => {
+  // Validate input
+  if (!offerId || offerId.trim().length === 0) {
+    throw new SimulationError(
+      'Offer ID is required',
+      ErrorType.VALIDATION_ERROR,
+      false,
+      'ID da oferta não fornecido.'
+    )
+  }
+
   // Simulate network delay
   await simulateDelay(500, 1200)
   
+  // Simulate server error
+  if (shouldSimulateError(ERROR_SIMULATION.serverErrorRate)) {
+    throw new SimulationError(
+      'Server error while fetching offer details',
+      ErrorType.SERVER_ERROR,
+      true,
+      'Erro interno do servidor. Tente novamente em alguns instantes.'
+    )
+  }
+  
   // Simulate network error
   if (shouldSimulateError(ERROR_SIMULATION.networkErrorRate)) {
-    throw new Error('Erro ao carregar detalhes da oferta.')
+    throw new SimulationError(
+      'Network error while fetching offer details',
+      ErrorType.NETWORK_ERROR,
+      true,
+      'Erro de conexão ao carregar detalhes da oferta. Verifique sua internet e tente novamente.'
+    )
   }
   
   const offer = MOCK_OFFERS.find(o => o.id === offerId)
-  return offer ? { ...offer } : null
+  
+  if (!offer) {
+    throw new SimulationError(
+      'Offer not found',
+      ErrorType.VALIDATION_ERROR,
+      false,
+      'Oferta não encontrada. Ela pode ter expirado ou não estar mais disponível.'
+    )
+  }
+  
+  return { ...offer }
 }
 
 // Service function to validate license plate format
@@ -307,4 +456,15 @@ export const getRandomCarPlate = (): string => {
 // Utility function to reset error simulation rates (useful for testing)
 export const setErrorSimulationRates = (rates: Partial<typeof ERROR_SIMULATION>) => {
   Object.assign(ERROR_SIMULATION, rates)
+}
+
+// Utility function to disable all error simulation (for testing)
+export const disableErrorSimulation = () => {
+  setErrorSimulationRates({
+    networkErrorRate: 0,
+    invalidPlateRate: 0,
+    timeoutRate: 0,
+    serverErrorRate: 0,
+    rateLimitRate: 0
+  })
 }

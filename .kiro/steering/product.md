@@ -1,23 +1,21 @@
 # Product Overview
 
-**Clica Seguros V2** is a modern car insurance platform focused on the Brazilian market. The product emphasizes simplicity, speed, and fairness in car insurance protection.
-
-## Key Value Propositions
-- Complete car protection with simple, fast, and fair processes
-- Up to 40% savings compared to traditional insurance
-- 24-hour activation
-- No CPF consultation required for quotes
-- Multiple payment options (PIX, Boleto, Credit Card)
-
-## Target Audience
-Brazilian car owners seeking modern, digital-first insurance solutions with transparent pricing and quick activation.
-
-## Brand Positioning
-Modern fintech approach to traditional insurance, emphasizing trust, efficiency, and contemporary digital experience while maintaining financial stability messaging.
+**Clica Seguros** is a modern car insurance platform focused on innovation in the Brazilian insurance market.
 
 ## Core Features
-- Free instant quotes
-- Complete coverage options
-- Digital-first experience
-- Transparent pricing
-- Quick claim processing ("Sinistro sem estresse")
+- **Car Insurance Simulation**: Multi-step form for getting insurance quotes based on license plate lookup
+- **Quote Comparison**: Display multiple insurance offers with detailed coverage information
+- **Modern UX**: Responsive design with smooth animations and glass morphism effects
+
+## Target Market
+- Brazilian car owners seeking insurance quotes
+- Focus on digital-first experience with streamlined quote process
+
+## Key User Journey
+1. User enters personal details and license plate
+2. System fetches car details automatically via plate lookup
+3. User confirms car information
+4. System generates and displays insurance quotes from multiple providers
+
+## Business Model
+Insurance marketplace connecting users with insurance providers through a modern, user-friendly interface.

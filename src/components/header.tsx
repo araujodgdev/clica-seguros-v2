@@ -189,7 +189,7 @@ function MegaMenu({ item, isOpen }: { item: typeof navLinks[0], isOpen: boolean 
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="absolute left-1/2 top-full mt-2 w-screen max-w-7xl -translate-x-1/2 transform z-50"
+          className="absolute left-1/2 top-full mt-2 w-[80rem] -translate-x-1/2 transform z-50"
         >
           <div className="rounded-2xl border border-neutral-light-gray/50 bg-white px-8 py-10 shadow-2xl">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -203,7 +203,7 @@ function MegaMenu({ item, isOpen }: { item: typeof navLinks[0], isOpen: boolean 
                   transition={{ delay: index * 0.1 }}
                   whileHover={{ x: 5, transition: { duration: 0.2 } }}
                 >
-                  <div className=" rounded-xl bg-primary/10 transition-all group-hover:bg-primary/20 group-hover:scale-110">
+                  <div className=" rounded-xl transition-all group-hover:scale-110">
                     <subitem.icon className="h-6 w-6 text-primary" />
                   </div>
                   <div className="flex-1">
@@ -312,7 +312,7 @@ export function Header() {
             >
               <Link 
                 href={link.href} 
-                className="flex items-center gap-1 text-sm font-medium text-neutral-medium-gray transition-colors hover:text-neutral-charcoal"
+                className="flex items-center gap-1 text-sm font-medium text-black transition-colors hover:text-neutral-charcoal"
               >
                 {link.label}
                 {link.submenu && (

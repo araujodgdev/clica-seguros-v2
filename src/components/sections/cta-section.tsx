@@ -14,6 +14,7 @@ import {
 } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import { Badge } from '../ui/badge'
+import Link from 'next/link'
 
 // Animated background component
 function AnimatedBackground() {
@@ -132,145 +133,11 @@ function FloatingTestimonial() {
   )
 }
 
-// Interactive form component
-function SimulationForm() {
-  const [step, setStep] = useState(1)
-  const [carPlate, setCarPlate] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setTimeout(() => {
-      setIsLoading(false)
-      setStep(2)
-    }, 1500)
-  }
-  
-  return (
-    <motion.form
-      onSubmit={handleSubmit}
-      className="relative z-10 w-full space-y-6"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      {step === 1 ? (
-        <>
-          <div className="space-y-2">
-            <label className="block text-sm font-semibold text-neutral-charcoal">
-              Placa do seu carro
-            </label>
-            <motion.input
-              type="text"
-              value={carPlate}
-              onChange={(e) => setCarPlate(e.target.value.toUpperCase())}
-              placeholder="ABC-1234"
-              className="w-full rounded-xl border-2 border-neutral-light-gray bg-neutral-light-gray/10 px-5 py-4 text-center text-lg font-bold uppercase tracking-wider text-neutral-charcoal outline-none transition-all placeholder:text-neutral-medium-gray/50 focus:border-primary focus:bg-white"
-              whileFocus={{ scale: 1.02 }}
-              maxLength={8}
-              required
-            />
-            <p className="text-xs text-neutral-medium-gray">
-              Digite a placa do veículo que deseja proteger
-            </p>
-          </div>
-          
-          <motion.button
-            type="submit"
-            className="group relative w-full overflow-hidden rounded-xl bg-neutral-charcoal px-6 py-4 font-semibold text-white shadow-lg transition-all hover:shadow-2xl disabled:cursor-not-allowed disabled:opacity-70"
-            whileHover={{ scale: isLoading ? 1 : 1.02 }}
-            whileTap={{ scale: isLoading ? 1 : 0.98 }}
-            disabled={isLoading || carPlate.length < 7}
-          >
-            {isLoading ? (
-              <motion.div
-                className="flex items-center justify-center gap-3"
-                animate={{ opacity: 1 }}
-              >
-                <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                <span>Buscando dados do veículo...</span>
-              </motion.div>
-            ) : (
-              <>
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  Começar simulação gratuita
-                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </span>
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-primary to-accent-emerald-green"
-                  initial={{ x: '-100%' }}
-                  whileHover={{ x: 0 }}
-                  transition={{ duration: 0.3 }}
-                />
-              </>
-            )}
-          </motion.button>
-          
-          {/* Benefits list */}
-          <div className="space-y-2 border-t border-neutral-light-gray pt-4">
-            {[
-              "Sem compromisso de contratação",
-              "Resultado em menos de 3 minutos",
-              "Compare com outras seguradoras"
-            ].map((benefit, index) => (
-              <motion.div
-                key={index}
-                className="flex items-center gap-2 text-sm text-neutral-medium-gray"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6 + index * 0.1 }}
-              >
-                <CheckCircle className="h-4 w-4 flex-shrink-0 text-accent-emerald-green" />
-                <span>{benefit}</span>
-              </motion.div>
-            ))}
-          </div>
-        </>
-      ) : (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="py-8 text-center"
-        >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", duration: 0.5 }}
-          >
-            <CheckCircle className="mx-auto mb-4 h-20 w-20 text-accent-emerald-green" />
-          </motion.div>
-          <h3 className="mb-3 text-2xl font-bold text-neutral-charcoal">
-            Perfeito! Encontramos seu veículo
-          </h3>
-          <p className="mb-2 text-base text-neutral-medium-gray">
-            {carPlate && (
-              <span className="font-semibold text-neutral-charcoal">Placa: {carPlate}</span>
-            )}
-          </p>
-          <p className="text-sm text-neutral-medium-gray">
-            Preparando sua cotação personalizada...
-          </p>
-          <motion.div
-            className="mx-auto mt-6 h-2 w-full max-w-xs overflow-hidden rounded-full bg-neutral-light-gray"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            <motion.div
-              className="h-full bg-gradient-to-r from-primary to-accent-emerald-green"
-              initial={{ width: 0 }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 2, ease: "easeInOut" }}
-            />
-          </motion.div>
-        </motion.div>
-      )}
-    </motion.form>
-  )
-}
+
 
 export function CtaSection() {
   const sectionRef = useRef(null)
+  
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"]
@@ -386,7 +253,37 @@ export function CtaSection() {
                   </p>
                 </div>
                 
-                <SimulationForm />
+                <Link href="/simulacao">
+                  <Button 
+                    size="lg" 
+                    className="w-full bg-neutral-charcoal hover:bg-neutral-charcoal/90 text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      Começar simulação gratuita
+                      <ArrowRight className="h-5 w-5" />
+                    </span>
+                  </Button>
+                </Link>
+                
+                {/* Benefits list */}
+                <div className="space-y-2 border-t border-neutral-light-gray pt-4 mt-6">
+                  {[
+                    "Sem compromisso de contratação",
+                    "Resultado em menos de 3 minutos",
+                    "Compare com outras seguradoras"
+                  ].map((benefit, index) => (
+                    <motion.div
+                      key={index}
+                      className="flex items-center gap-2 text-sm text-neutral-medium-gray"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.6 + index * 0.1 }}
+                    >
+                      <CheckCircle className="h-4 w-4 flex-shrink-0 text-accent-emerald-green" />
+                      <span>{benefit}</span>
+                    </motion.div>
+                  ))}
+                </div>
                 
                 {/* Footer text */}
                 <div className="mt-8 border-t border-neutral-light-gray pt-6">

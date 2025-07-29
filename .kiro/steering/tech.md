@@ -1,46 +1,50 @@
-# Tech Stack & Build System
+# Technology Stack
 
 ## Framework & Runtime
-- **Next.js 15.3.4** - React framework with App Router
-- **React 19** - UI library
-- **TypeScript 5** - Type safety and development experience
-- **Node.js** - Runtime environment
+- **Next.js 15.3.4** with App Router
+- **React 19** with TypeScript
+- **Node.js** runtime environment
 
 ## Styling & UI
-- **Tailwind CSS 4.1.11** - Utility-first CSS framework with custom design tokens
-- **Framer Motion 12.20.1** - Animation library for smooth interactions
-- **Radix UI** - Headless UI components (@radix-ui/react-icons, @radix-ui/react-slot)
-- **Lucide React** - Icon library
-- **Class Variance Authority (CVA)** - Component variant management
+- **Tailwind CSS 4.1.11** for styling with custom design system
+- **Framer Motion 12.20.1** for animations and transitions
+- **Radix UI** components for accessible primitives
+- **Lucide React** for icons
+- **Class Variance Authority** for component variants
 
-## Utilities
-- **clsx & tailwind-merge** - Conditional className utilities
-- **PostCSS** - CSS processing
+## Development Tools
+- **TypeScript 5** for type safety
+- **Vitest 3.2.4** for testing with jsdom environment
+- **Testing Library** (React, Jest DOM, User Event) for component testing
+- **ESLint** via Next.js for code linting
 
-## Development Commands
+## Build System & Performance
+- **Standalone output** for optimized deployments
+- **Package import optimization** for framer-motion and lucide-react
+- **Image optimization** with WebP/AVIF formats
+- **Compression enabled** for production builds
+
+## Common Commands
+
+### Development
 ```bash
-# Development server
-npm run dev
-
-# Production build
-npm run build
-
-# Start production server
-npm start
-
-# Linting
-npm run lint
+npm run dev          # Start development server on localhost:3000
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
 ```
 
-## Build Configuration
-- **next.config.ts** - Next.js configuration (minimal setup)
-- **tailwind.config.ts** - Custom design system with extensive color palette and animations
-- **postcss.config.mjs** - PostCSS configuration
-- **tsconfig.json** - TypeScript configuration
+### Testing
+```bash
+npm run test         # Run tests in watch mode
+npm run test:run     # Run tests once
+```
 
-## Design System Integration
-The project uses a comprehensive design system defined in `design.json` with:
-- Custom color palette (primary green #52C41A, neutrals, accent colors)
-- Typography scale with clamp() for responsive sizing
-- Animation keyframes and transitions
-- Elevation shadows and glassmorphism effects
+## Path Aliases
+- `@/*` maps to `./src/*` for clean imports
+
+## Performance Optimizations
+- Lazy loading for simulation components
+- Image optimization with multiple formats and sizes
+- Bundle optimization with experimental package imports
+- Component-level code splitting

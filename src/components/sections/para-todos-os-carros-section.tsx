@@ -171,7 +171,7 @@ function CarCard({ car, isActive }: { car: typeof carTypes[0], isActive: boolean
 // Enhanced Timeline Component
 function Timeline({ activeIndex, onSelect }: { activeIndex: number, onSelect: (index: number) => void }) {
   return (
-    <div className="relative mx-auto max-w-4xl">
+    <div className="relative mx-auto">
       {/* Timeline line */}
       <div className="absolute left-0 right-0 top-1/2 h-1 -translate-y-1/2 bg-neutral-light-gray" />
       <motion.div

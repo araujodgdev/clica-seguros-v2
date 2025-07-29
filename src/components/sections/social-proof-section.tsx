@@ -198,7 +198,7 @@ export function SocialProofSection() {
           </motion.span>
           
           <motion.h2 
-            className="mx-auto max-w-3xl text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-neutral-charcoal"
+            className="mx-auto text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-neutral-charcoal"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

@@ -7,6 +7,7 @@ import {
   generateQuoteSimulation,
   getRandomCarPlate,
   setErrorSimulationRates,
+  disableErrorSimulation,
   MOCK_CARS,
   MOCK_OFFERS
 } from '../mock-data'
@@ -25,12 +26,8 @@ vi.setConfig({ testTimeout: 10000 })
 
 describe('Mock Data Services', () => {
   beforeEach(() => {
-    // Reset error simulation rates for consistent testing
-    setErrorSimulationRates({
-      networkErrorRate: 0,
-      invalidPlateRate: 0,
-      timeoutRate: 0
-    })
+    // Disable error simulation for consistent testing
+    disableErrorSimulation()
   })
 
   describe('validateLicensePlate', () => {
@@ -203,9 +200,8 @@ describe('Mock Data Services', () => {
       })
     })
 
-    it('should return null for invalid offer ID', async () => {
-      const offerDetails = await getOfferDetails('invalid-offer')
-      expect(offerDetails).toBeNull()
+    it('should throw error for invalid offer ID', async () => {
+      await expect(getOfferDetails('invalid-offer')).rejects.toThrow('Offer not found')
     })
   })
 
@@ -247,19 +243,19 @@ describe('Mock Data Services', () => {
     it('should simulate network errors when configured', async () => {
       setErrorSimulationRates({ networkErrorRate: 1 }) // 100% error rate
       
-      await expect(getCarDetailsByPlate('ABC1234')).rejects.toThrow('Erro de conexão')
+      await expect(getCarDetailsByPlate('ABC1234')).rejects.toThrow('Network connection failed')
     })
 
     it('should simulate invalid plate errors when configured', async () => {
       setErrorSimulationRates({ invalidPlateRate: 1 }) // 100% error rate
       
-      await expect(getCarDetailsByPlate('ABC1234')).rejects.toThrow('Placa não encontrada')
+      await expect(getCarDetailsByPlate('ABC1234')).rejects.toThrow('License plate not found in database')
     })
 
     it('should simulate timeout errors when configured', async () => {
       setErrorSimulationRates({ timeoutRate: 1 }) // 100% error rate
       
-      await expect(getCarDetailsByPlate('ABC1234')).rejects.toThrow('Tempo limite excedido')
+      await expect(getCarDetailsByPlate('ABC1234')).rejects.toThrow('Request timeout')
     })
   })
 

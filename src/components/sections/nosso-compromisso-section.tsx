@@ -271,7 +271,7 @@ export function NossoCompromissoSection() {
       
       <div className="container relative z-10 mx-auto">
         {/* Header */}
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
             whileInView={{ opacity: 1, scale: 1 }}
