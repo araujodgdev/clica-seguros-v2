@@ -3,7 +3,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { GlassCard } from '@/components/ui/glass-card'
 import { CarDetails } from '@/lib/types/simulation'
 import { 
   Car, 
@@ -90,12 +89,8 @@ export function CarDetailsConfirmation({
   }
 
   return (
-    <GlassCard 
-      variant="colored" 
-      padding="lg" 
-      rounded="lg" 
-      shadow="xl"
-      className="w-full mx-auto px-4"
+    <div 
+      className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-12 bg-white rounded-2xl shadow-lg border border-neutral-light-gray/50"
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -127,7 +122,7 @@ export function CarDetailsConfirmation({
           transition={{ duration: 0.4, delay: 0.3 }}
           className="mb-8"
         >
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-white/30 shadow-lg">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-neutral-light-gray/50 shadow-md">
             {/* Car Icon and Main Info */}
             <div className="flex items-start gap-4 mb-6">
               <div className="flex-shrink-0">
@@ -259,7 +254,7 @@ export function CarDetailsConfirmation({
 
         {/* Benefits */}
         <motion.div
-          className="pt-6 border-t border-white/20 mt-6"
+          className="pt-6 border-t border-neutral-light-gray/30 mt-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.9 }}
@@ -284,6 +279,6 @@ export function CarDetailsConfirmation({
           </div>
         </motion.div>
       </motion.div>
-    </GlassCard>
+    </div>
   )
 }

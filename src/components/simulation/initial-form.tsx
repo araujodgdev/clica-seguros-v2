@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { GlassCard } from '@/components/ui/glass-card'
 import { 
   validateName, 
   validateEmail, 
@@ -184,12 +183,8 @@ export function InitialForm({ onSubmit, isLoading = false }: InitialFormProps) {
   }
 
   return (
-    <GlassCard 
-      variant="colored" 
-      padding="lg" 
-      rounded="lg" 
-      shadow="xl"
-      className="w-full mx-auto px-4"
+    <div 
+      className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-12 bg-white rounded-2xl shadow-lg border border-neutral-light-gray/50"
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -235,7 +230,7 @@ export function InitialForm({ onSubmit, isLoading = false }: InitialFormProps) {
                 aria-describedby={errors.name ? "name-error" : undefined}
                 aria-invalid={getFieldStatus('name') === 'error'}
                 aria-required="true"
-                className={`w-full pl-12 pr-12 py-4 sm:py-4 min-h-[48px] rounded-xl border-2 bg-white/50 backdrop-blur-sm text-neutral-charcoal placeholder:text-neutral-medium-gray/60 outline-none transition-all duration-200 text-base sm:text-sm ${
+                className={`w-full pl-12 pr-12 py-4 sm:py-4 min-h-[48px] rounded-xl border-2 bg-white/80 backdrop-blur-sm text-neutral-charcoal placeholder:text-neutral-medium-gray/60 outline-none transition-all duration-200 text-base sm:text-sm ${
                   getFieldStatus('name') === 'error' 
                     ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20' :
                   getFieldStatus('name') === 'success'
@@ -297,7 +292,7 @@ export function InitialForm({ onSubmit, isLoading = false }: InitialFormProps) {
                 aria-describedby={errors.email ? "email-error" : undefined}
                 aria-invalid={getFieldStatus('email') === 'error'}
                 aria-required="true"
-                className={`w-full pl-12 pr-12 py-4 sm:py-4 min-h-[48px] rounded-xl border-2 bg-white/50 backdrop-blur-sm text-neutral-charcoal placeholder:text-neutral-medium-gray/60 outline-none transition-all duration-200 text-base sm:text-sm ${
+                className={`w-full pl-12 pr-12 py-4 sm:py-4 min-h-[48px] rounded-xl border-2 bg-white/80 backdrop-blur-sm text-neutral-charcoal placeholder:text-neutral-medium-gray/60 outline-none transition-all duration-200 text-base sm:text-sm ${
                   getFieldStatus('email') === 'error' 
                     ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20' :
                   getFieldStatus('email') === 'success'
@@ -359,7 +354,7 @@ export function InitialForm({ onSubmit, isLoading = false }: InitialFormProps) {
                 aria-describedby={errors.licensePlate ? "licensePlate-error" : "licensePlate-help"}
                 aria-invalid={getFieldStatus('licensePlate') === 'error'}
                 aria-required="true"
-                className={`w-full pl-12 pr-12 py-4 sm:py-4 min-h-[48px] rounded-xl border-2 bg-white/50 backdrop-blur-sm text-center text-base sm:text-lg font-bold uppercase tracking-wider text-neutral-charcoal placeholder:text-neutral-medium-gray/60 placeholder:font-normal placeholder:tracking-normal outline-none transition-all duration-200 ${
+                className={`w-full pl-12 pr-12 py-4 sm:py-4 min-h-[48px] rounded-xl border-2 bg-white/80 backdrop-blur-sm text-center text-base sm:text-lg font-bold uppercase tracking-wider text-neutral-charcoal placeholder:text-neutral-medium-gray/60 placeholder:font-normal placeholder:tracking-normal outline-none transition-all duration-200 ${
                   getFieldStatus('licensePlate') === 'error' 
                     ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20' :
                   getFieldStatus('licensePlate') === 'success'
@@ -422,7 +417,7 @@ export function InitialForm({ onSubmit, isLoading = false }: InitialFormProps) {
           </div>
 
           {/* Benefits */}
-          <div className="pt-4 border-t border-white/20">
+          <div className="pt-4 border-t border-neutral-light-gray/30">
             <div className="space-y-2">
               {[
                 "Sem compromisso de contratação",
@@ -444,6 +439,6 @@ export function InitialForm({ onSubmit, isLoading = false }: InitialFormProps) {
           </div>
         </form>
       </motion.div>
-    </GlassCard>
+    </div>
   )
 }

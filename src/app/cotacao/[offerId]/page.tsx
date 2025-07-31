@@ -3,7 +3,6 @@
 import { useEffect, useState, lazy, Suspense } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { GlassCard } from '@/components/ui/glass-card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { InsuranceOffer } from '@/lib/types/simulation'
@@ -29,7 +28,7 @@ const MotionDiv = lazy(() => import('framer-motion').then(mod => ({ default: mod
 // Loading component for offer details
 function OfferDetailsLoading() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-accent-forest-green via-accent-emerald-green to-accent-forest-green">
+    <div className="min-h-screen bg-neutral-light-gray/20">
       <div className="container mx-auto px-4 py-16">
         <div className="mx-auto">
           <div className="h-8 bg-white/20 rounded-lg w-64 mb-8 animate-pulse" />
@@ -207,7 +206,7 @@ export default function OfferDetailsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-accent-forest-green via-accent-emerald-green to-accent-forest-green">
+      <div className="min-h-screen bg-neutral-light-gray/20">
         <div className="container mx-auto px-4 py-16">
           <div className="mx-auto">
             <div className="h-8 bg-white/20 rounded-lg w-64 mb-8 animate-pulse" />
@@ -226,7 +225,7 @@ export default function OfferDetailsPage() {
 
   if (error || !offer) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-accent-forest-green via-accent-emerald-green to-accent-forest-green">
+      <div className="min-h-screen bg-neutral-light-gray/20">
         <div className="container mx-auto px-4 py-16">
           <div className="mx-auto text-center">
             <motion.div
@@ -234,7 +233,7 @@ export default function OfferDetailsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <GlassCard variant="colored" padding="lg">
+              <div className="bg-white rounded-2xl shadow-lg border border-neutral-light-gray/50 p-6 sm:p-8">
                 <XCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
                 <h1 className="text-2xl font-bold text-neutral-charcoal mb-4">
                   {error || 'Oferta não encontrada'}
@@ -248,7 +247,7 @@ export default function OfferDetailsPage() {
                     Voltar às Cotações
                   </Button>
                 </Link>
-              </GlassCard>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -258,7 +257,7 @@ export default function OfferDetailsPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-accent-forest-green via-accent-emerald-green to-accent-forest-green">
+      <div className="min-h-screen bg-neutral-light-gray/20">
         <div className="container mx-auto px-4 py-16">
           <div className="mx-auto">
             {/* Back button */}
@@ -269,7 +268,7 @@ export default function OfferDetailsPage() {
               className="mb-8"
             >
               <Link href="/cotacao">
-                <Button variant="ghost" className="text-white hover:bg-white/10">
+                <Button variant="ghost" className="text-neutral-charcoal hover:bg-neutral-light-gray/50">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Voltar às Cotações
                 </Button>
@@ -285,7 +284,7 @@ export default function OfferDetailsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <GlassCard variant="colored" padding="lg">
+                  <div className="bg-white rounded-2xl shadow-lg border border-neutral-light-gray/50 p-6 sm:p-8">
                     <div className="flex items-center justify-between mb-4">
                       <h1 className="text-3xl font-bold text-neutral-charcoal">
                         {offer.insurerName}
@@ -318,7 +317,7 @@ export default function OfferDetailsPage() {
                         <div className="text-sm text-neutral-medium-gray">economia/mês</div>
                       </div>
                     </div>
-                  </GlassCard>
+                  </div>
                 </motion.div>
 
                 {/* Coverage Details */}
@@ -327,7 +326,7 @@ export default function OfferDetailsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.1 }}
                 >
-                  <GlassCard variant="colored" padding="lg">
+                  <div className="bg-white rounded-2xl shadow-lg border border-neutral-light-gray/50 p-6 sm:p-8">
                     <h2 className="text-2xl font-semibold text-neutral-charcoal mb-6 flex items-center gap-2">
                       <Shield className="w-6 h-6" />
                       Detalhes da Cobertura
@@ -391,7 +390,7 @@ export default function OfferDetailsPage() {
                       </div>
                     </div>
                     
-                    <div className="mt-6 pt-6 border-t border-white/20">
+                    <div className="mt-6 pt-6 border-t border-neutral-light-gray/30">
                       <h3 className="font-semibold text-neutral-dark-gray mb-3">Serviços Incluídos</h3>
                       <div className="flex flex-wrap gap-2">
                         {offer.coverageHighlights.map((highlight, index) => (
@@ -401,7 +400,7 @@ export default function OfferDetailsPage() {
                         ))}
                       </div>
                     </div>
-                  </GlassCard>
+                  </div>
                 </motion.div>
               </div>
 
@@ -413,7 +412,7 @@ export default function OfferDetailsPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
                 >
-                  <GlassCard variant="colored" padding="lg" className="sticky top-8">
+                  <div className="bg-white rounded-2xl shadow-lg border border-neutral-light-gray/50 p-6 sm:p-8 sticky top-8">
                     <h3 className="text-xl font-semibold text-neutral-charcoal mb-4">
                       Contratar Seguro
                     </h3>
@@ -448,12 +447,12 @@ export default function OfferDetailsPage() {
                       </Button>
                     </div>
                     
-                    <div className="mt-6 pt-4 border-t border-white/20 text-center">
+                    <div className="mt-6 pt-4 border-t border-neutral-light-gray/30 text-center">
                       <p className="text-xs text-neutral-medium-gray">
                         Ativação em até 24 horas
                       </p>
                     </div>
-                  </GlassCard>
+                  </div>
                 </motion.div>
               </div>
             </div>

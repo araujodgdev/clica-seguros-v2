@@ -4,7 +4,6 @@ import { Suspense, useEffect, useState, lazy } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Head from 'next/head'
 import { motion } from 'framer-motion'
-import { GlassCard } from '@/components/ui/glass-card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { InsuranceOffer, CarDetails } from '@/lib/types/simulation'
@@ -20,7 +19,7 @@ const MotionDiv = lazy(() => import('framer-motion').then(mod => ({ default: mod
 // Enhanced loading component with sophisticated animations
 function QuoteResultsLoading() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-accent-forest-green via-accent-emerald-green to-accent-forest-green">
+    <div className="min-h-screen bg-neutral-light-gray/20">
       <div className="container mx-auto px-4 py-16">
         {/* Enhanced header skeleton */}
         <div className="text-center mb-16">
@@ -238,15 +237,7 @@ function OfferCard({ offer, carDetails, index }: { offer: InsuranceOffer; carDet
         </motion.div>
       )}
 
-      <GlassCard 
-        variant="colored" 
-        padding="lg" 
-        className={`h-full flex flex-col justify-between transition-all duration-500 relative overflow-hidden ${
-          focusRingActive ? 'ring-4 ring-primary ring-opacity-50' : ''
-        }`}
-        hoverEffect={true}
-        glowEffect={true}
-      >
+      <div className="bg-white rounded-2xl shadow-lg border border-neutral-light-gray/50 p-6 sm:p-8">
         {/* Animated background glow on hover */}
         <motion.div
           className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent-emerald-green/5 opacity-0"
@@ -381,7 +372,7 @@ function OfferCard({ offer, carDetails, index }: { offer: InsuranceOffer; carDet
             </motion.div>
           </Link>
         </div>
-      </GlassCard>
+      </div>
     </motion.div>
   )
 }
@@ -527,7 +518,7 @@ function QuoteResultsContent() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-accent-forest-green via-accent-emerald-green to-accent-forest-green">
+      <div className="min-h-screen bg-neutral-light-gray/20">
         <div className="container mx-auto px-4 py-16">
           <div className=" mx-auto text-center">
             <motion.div
@@ -535,33 +526,33 @@ function QuoteResultsContent() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <GlassCard variant="colored" padding="lg">
-                <div className="text-red-500 mb-4">
-                  <svg className="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                  </svg>
-                </div>
-                <h1 className="text-2xl font-bold text-neutral-charcoal mb-4">
-                  Ops! Algo deu errado
-                </h1>
-                <p className="text-neutral-dark-gray mb-6">
-                  {error}
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button 
-                    variant="default" 
-                    size="lg"
-                    onClick={() => window.location.reload()}
-                  >
-                    Tentar Novamente
-                  </Button>
-                  <Link href="/">
-                    <Button variant="secondary" size="lg">
-                      Voltar ao Início
+              <div className="bg-white rounded-2xl shadow-lg border border-neutral-light-gray/50 p-6 sm:p-8">
+                  <div className="text-red-500 mb-4">
+                    <svg className="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                    </svg>
+                  </div>
+                  <h1 className="text-2xl font-bold text-neutral-charcoal mb-4">
+                    Ops! Algo deu errado
+                  </h1>
+                  <p className="text-neutral-dark-gray mb-6">
+                    {error}
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button 
+                      variant="default" 
+                      size="lg"
+                      onClick={() => window.location.reload()}
+                    >
+                      Tentar Novamente
                     </Button>
-                  </Link>
+                    <Link href="/">
+                      <Button variant="secondary" size="lg">
+                        Voltar ao Início
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
-              </GlassCard>
             </motion.div>
           </div>
         </div>
@@ -570,7 +561,7 @@ function QuoteResultsContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-accent-forest-green via-accent-emerald-green to-accent-forest-green">
+    <div className="min-h-screen bg-neutral-light-gray/20">
       <div className="container mx-auto px-4 py-16">
         {/* Enhanced Header Section with Dynamic Stats */}
         <motion.div 
@@ -608,7 +599,7 @@ function QuoteResultsContent() {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight">
+            <h1 className="text-4xl md:text-5xl font-bold text-neutral-charcoal mb-4 tracking-tight">
               <motion.span
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -621,7 +612,7 @@ function QuoteResultsContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                className="block bg-gradient-to-r from-primary to-accent-emerald-green bg-clip-text text-transparent"
+                className="block text-primary"
               >
                 Estão Prontas! ✨
               </motion.span>
@@ -629,7 +620,7 @@ function QuoteResultsContent() {
           </motion.div>
           
           <motion.p 
-            className="text-xl md:text-2xl text-white/90 mx-auto leading-relaxed font-medium"
+            className="text-lg md:text-xl text-neutral-medium-gray mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7 }}
@@ -657,8 +648,8 @@ function QuoteResultsContent() {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <div className="text-2xl mb-1">{stat.icon}</div>
-                <div className="text-2xl font-bold text-white">{stat.value}</div>
-                <div className="text-sm text-white/70 font-medium">{stat.label}</div>
+                <div className="text-2xl font-bold text-neutral-charcoal">{stat.value}</div>
+                <div className="text-sm text-neutral-medium-gray font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>
@@ -671,11 +662,8 @@ function QuoteResultsContent() {
               transition={{ duration: 0.6, delay: 1.1, type: "spring", stiffness: 100 }}
               className="mt-8"
             >
-              <GlassCard 
-                variant="subtle" 
-                padding="lg" 
-                className="inline-flex items-center gap-4 hover:scale-105 transition-all duration-300 cursor-pointer"
-                hoverEffect={true}
+              <div 
+                className="inline-flex items-center gap-4 bg-white rounded-2xl shadow-lg border border-neutral-light-gray/50 p-4 sm:p-6 hover:scale-105 transition-all duration-300 cursor-pointer"
               >
                 <motion.div
                   animate={{ rotate: [0, 5, -5, 0] }}
@@ -685,14 +673,14 @@ function QuoteResultsContent() {
                   🚗
                 </motion.div>
                 <div className="text-left">
-                  <div className="text-white font-bold text-lg">
+                  <div className="text-neutral-charcoal font-bold text-lg">
                     {carDetails.make} {carDetails.model}
                   </div>
-                  <div className="text-white/70 text-sm">
+                  <div className="text-neutral-medium-gray text-sm">
                     {carDetails.year} • Valor: R$ {carDetails.estimatedValue.toLocaleString('pt-BR')}
                   </div>
                 </div>
-              </GlassCard>
+              </div>
             </motion.div>
           )}
         </motion.div>
@@ -703,7 +691,7 @@ function QuoteResultsContent() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {offers.map((offer, index) => (
               <OfferCard 
                 key={offer.id}
@@ -737,7 +725,7 @@ function QuoteResultsContent() {
             ].map((item, index) => (
               <motion.div
                 key={item.label}
-                className="text-center p-4 bg-white/5 rounded-xl backdrop-blur-sm"
+                className="text-center p-4 bg-white/10 rounded-xl backdrop-blur-sm"
                 whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' }}
                 transition={{ type: "spring", stiffness: 300 }}
                 initial={{ opacity: 0, y: 20 }}

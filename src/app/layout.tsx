@@ -7,6 +7,9 @@ import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google'
 import { Header } from '@/components/header'
 import { QueryProvider } from '@/lib/providers/query-provider'
 import { usePathname } from 'next/navigation'
+import { ClerkProvider } from '@clerk/nextjs'
+import ConvexClientProvider from "./ConvexClientProvider";
+import { useAuth } from "@clerk/nextjs";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +36,7 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
 })
 
-export default function RootLayout({ 
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
@@ -44,10 +47,14 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}>
       <body>
-        <QueryProvider>
-          {!noHeaderRoutes.includes(pathname) && <Header />}
-          {children}
-        </QueryProvider>
+        <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}>
+          <ConvexClientProvider>
+            <QueryProvider>
+              {!noHeaderRoutes.includes(pathname) && <Header />}
+              {children}
+            </QueryProvider>
+          </ConvexClientProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

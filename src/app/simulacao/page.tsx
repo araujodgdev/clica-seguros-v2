@@ -34,7 +34,7 @@ export default function SimulacaoPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <SimulationForm className="mx-auto" />
+          <SimulationForm className="mx-auto lg:max-w-[70%]" />
         </motion.div>
 
         {/* Trust Indicators */}

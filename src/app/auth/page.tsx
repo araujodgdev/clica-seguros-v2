@@ -82,10 +82,6 @@ const AuthForm = ({ isSignUp }: { isSignUp: boolean }) => {
           <img src="/google.svg" alt="Google" className="w-5 h-5 mr-2" />
           Google
         </Button>
-        <Button variant="secondary" className="w-full">
-          <img src="/facebook.svg" alt="Facebook" className="w-5 h-5 mr-2" />
-          Facebook
-        </Button>
       </div>
     </motion.div>
   )
@@ -96,13 +92,13 @@ export default function AuthPage() {
 
   return (
     <>
-      <div className="min-h-screen w-full bg-gradient-to-br from-accent-forest-green via-accent-emerald-green to-accent-forest-green flex items-center justify-center p-4">
+      <div className="min-h-screen w-full bg-neutral-light-gray/20 flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
         >
-          <div className="bg-white rounded-2xl shadow-xl p-8 w-full mx-auto">
+          <div className="bg-white rounded-2xl shadow-lg border border-neutral-light-gray/50 p-8 sm:p-10 md:p-12 w-full mx-auto">
             <div className="flex justify-center mb-8">
               <div className="bg-white/20 p-1 rounded-full flex gap-1">
                 <Button
