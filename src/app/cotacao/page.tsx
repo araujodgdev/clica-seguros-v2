@@ -629,7 +629,7 @@ function QuoteResultsContent() {
           </motion.div>
           
           <motion.p 
-            className="text-xl md:text-2xl text-white/90 mx-auto max-w-3xl leading-relaxed font-medium"
+            className="text-xl md:text-2xl text-white/90 mx-auto leading-relaxed font-medium"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7 }}
@@ -674,7 +674,7 @@ function QuoteResultsContent() {
               <GlassCard 
                 variant="subtle" 
                 padding="lg" 
-                className="inline-flex items-center gap-4 hover:scale-105 transition-all duration-300 cursor-pointer max-w-md"
+                className="inline-flex items-center gap-4 hover:scale-105 transition-all duration-300 cursor-pointer"
                 hoverEffect={true}
               >
                 <motion.div

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { 
@@ -22,7 +22,8 @@ import {
   MessageCircle,
   ArrowRight,
   TrendingUp,
-  Zap
+  Zap,
+  User
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -64,12 +65,26 @@ const navLinks = [
 function NotificationBell() {
   const [hasNotifications, setHasNotifications] = useState(true)
   const [showNotifications, setShowNotifications] = useState(false)
+  const notificationsRef = useRef<HTMLDivElement>(null)
   
   const notifications = [
     { id: 1, text: "Novo desconto disponível!", time: "2 min", isNew: true },
     { id: 2, text: "Sua cotação está pronta", time: "1h", isNew: true },
     { id: 3, text: "Lembrete: renovação em 30 dias", time: "2h", isNew: false },
   ]
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (notificationsRef.current && !notificationsRef.current.contains(event.target as Node)) {
+        setShowNotifications(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [notificationsRef])
   
   return (
     <div className="relative">
@@ -90,6 +105,7 @@ function NotificationBell() {
       <AnimatePresence>
         {showNotifications && (
           <motion.div
+            ref={notificationsRef}
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -353,20 +369,13 @@ export function Header() {
           
           {/* CTA Buttons */}
           <div className="hidden items-center space-x-4 md:flex">
-            <Button variant="ghost" className="text-sm">
-              Entrar
-            </Button>
-            <Button className="group">
-              <Sparkles className="mr-2 h-4 w-4" />
-              Começar agora
-              <motion.span
-                className="ml-2"
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                →
-              </motion.span>
-            </Button>
+            <Link href="/auth">
+              <Button variant="default" className="group hover:cursor-pointer">
+                <User className="mr-2 h-4 w-4" />
+                Entrar
+                <ArrowRight className="ml-2 h-4 w-4 " />
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -460,13 +469,12 @@ export function Header() {
               
               {/* Mobile CTAs */}
               <div className="mt-6 space-y-3 border-t border-neutral-light-gray pt-6">
-                <Button variant="ghost" className="w-full">
-                  Entrar
-                </Button>
-                <Button className="w-full">
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  Começar agora
-                </Button>
+                <Link href="/auth">
+                  <Button className="w-full hover:cursor-pointer">
+                    <User className="mr-2 h-4 w-4" />
+                    Entrar
+                  </Button>
+                </Link>
               </div>
               
               {/* Mobile notifications badge */}

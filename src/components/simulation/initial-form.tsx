@@ -189,7 +189,7 @@ export function InitialForm({ onSubmit, isLoading = false }: InitialFormProps) {
       padding="lg" 
       rounded="lg" 
       shadow="xl"
-      className="w-full max-w-[80%] mx-auto px-4"
+      className="w-full mx-auto px-4"
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}

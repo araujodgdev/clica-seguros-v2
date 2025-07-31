@@ -209,7 +209,7 @@ export default function OfferDetailsPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-accent-forest-green via-accent-emerald-green to-accent-forest-green">
         <div className="container mx-auto px-4 py-16">
-          <div className="max-w-4xl mx-auto">
+          <div className="mx-auto">
             <div className="h-8 bg-white/20 rounded-lg w-64 mb-8 animate-pulse" />
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
@@ -228,7 +228,7 @@ export default function OfferDetailsPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-accent-forest-green via-accent-emerald-green to-accent-forest-green">
         <div className="container mx-auto px-4 py-16">
-          <div className="max-w-2xl mx-auto text-center">
+          <div className="mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

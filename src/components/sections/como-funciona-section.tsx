@@ -232,7 +232,7 @@ export function ComoFuncionaSection() {
           </motion.h2>
           
           <motion.p 
-            className="mx-auto mt-6 max-w-2xl text-xl text-neutral-medium-gray"
+            className="mx-auto mt-6 text-xl text-neutral-medium-gray"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

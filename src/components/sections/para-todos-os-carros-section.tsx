@@ -315,7 +315,7 @@ export function ParaTodosOsCarrosSection() {
           </motion.div>
           
           <motion.h2 
-            className="mx-auto max-w-3xl text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-neutral-charcoal"
+            className="mx-auto text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-neutral-charcoal"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -336,7 +336,7 @@ export function ParaTodosOsCarrosSection() {
           </motion.h2>
           
           <motion.p 
-            className="mx-auto mt-6 max-w-2xl text-xl text-neutral-medium-gray"
+            className="mx-auto mt-6 text-xl text-neutral-medium-gray"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
