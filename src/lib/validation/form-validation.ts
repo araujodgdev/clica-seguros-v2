@@ -40,6 +40,14 @@ const ERROR_MESSAGES = {
     tooLong: 'Placa muito longa. Verifique o formato',
     invalidFormat: 'Formato de placa não reconhecido',
     invalidChars: 'Placa contém caracteres inválidos'
+  },
+  cpf: {
+    required: 'CPF é obrigatório',
+    invalid: 'CPF inválido',
+    tooShort: 'CPF deve ter 11 dígitos',
+    tooLong: 'CPF deve ter 11 dígitos',
+    invalidFormat: 'CPF deve conter apenas números',
+    sameDigits: 'CPF não pode ter todos os dígitos iguais'
   }
 }
 
@@ -55,6 +63,13 @@ export function sanitizeString(value: string): string {
  */
 export function sanitizeLicensePlate(value: string): string {
   return value.replace(/[\s-]/g, '').toUpperCase()
+}
+
+/**
+ * Sanitizes CPF by removing non-numeric characters
+ */
+export function sanitizeCpf(value: string): string {
+  return value.replace(/\D/g, '')
 }
 
 /**
@@ -120,6 +135,62 @@ export function validateLicensePlate(licensePlate: string): FieldValidationResul
 }
 
 /**
+ * Validates a Brazilian CPF using the official algorithm
+ */
+export function validateCpf(cpf: string): FieldValidationResult {
+  const sanitized = sanitizeCpf(cpf)
+  
+  if (!sanitized) {
+    return { isValid: false, error: ERROR_MESSAGES.cpf.required }
+  }
+  
+  if (sanitized.length !== 11) {
+    return { isValid: false, error: ERROR_MESSAGES.cpf.tooShort }
+  }
+  
+  // Check if all digits are the same
+  if (/^(\d)\1{10}$/.test(sanitized)) {
+    return { isValid: false, error: ERROR_MESSAGES.cpf.sameDigits }
+  }
+  
+  // Validate CPF check digits
+  let sum = 0
+  let remainder
+  
+  // Calculate first check digit
+  for (let i = 1; i <= 9; i++) {
+    sum += parseInt(sanitized.substring(i - 1, i)) * (11 - i)
+  }
+  remainder = (sum * 10) % 11
+  
+  if (remainder === 10 || remainder === 11) {
+    remainder = 0
+  }
+  
+  if (remainder !== parseInt(sanitized.substring(9, 10))) {
+    return { isValid: false, error: ERROR_MESSAGES.cpf.invalid }
+  }
+  
+  sum = 0
+  
+  // Calculate second check digit
+  for (let i = 1; i <= 10; i++) {
+    sum += parseInt(sanitized.substring(i - 1, i)) * (12 - i)
+  }
+  remainder = (sum * 10) % 11
+  
+  if (remainder === 10 || remainder === 11) {
+    remainder = 0
+  }
+  
+  if (remainder !== parseInt(sanitized.substring(10, 11))) {
+    return { isValid: false, error: ERROR_MESSAGES.cpf.invalid }
+  }
+  
+  return { isValid: true }
+}
+
+/**
  * Validates the complete form data
  */
 export function validateFormData(formData: FormData): ValidationResult {
@@ -161,6 +232,23 @@ export function formatLicensePlateForDisplay(licensePlate: string): string {
   }
   
   return sanitized
+}
+
+/**
+ * Formats CPF for display (adds dots and hyphen)
+ */
+export function formatCpfForDisplay(cpf: string): string {
+  const sanitized = sanitizeCpf(cpf)
+  
+  if (sanitized.length <= 3) {
+    return sanitized
+  } else if (sanitized.length <= 6) {
+    return `${sanitized.slice(0, 3)}.${sanitized.slice(3)}`
+  } else if (sanitized.length <= 9) {
+    return `${sanitized.slice(0, 3)}.${sanitized.slice(3, 6)}.${sanitized.slice(6)}`
+  } else {
+    return `${sanitized.slice(0, 3)}.${sanitized.slice(3, 6)}.${sanitized.slice(6, 9)}-${sanitized.slice(9, 11)}`
+  }
 }
 
 /**

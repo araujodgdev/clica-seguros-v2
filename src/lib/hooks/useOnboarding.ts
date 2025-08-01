@@ -2,12 +2,13 @@
 import * as React from 'react'
 import { useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
-import { validateName } from '@/lib/validation/form-validation'
+import { validateName, validateCpf, sanitizeCpf } from '@/lib/validation/form-validation'
 import { completeOnboarding } from '@/app/onboarding/_actions'
 
 interface FormErrors {
   name?: string
   phone?: string
+  cpf?: string
 }
 
 const validatePhone = (phone: string) => {
@@ -29,6 +30,7 @@ export const useOnboarding = () => {
   const [formData, setFormData] = React.useState({
     name: '',
     phone: '',
+    cpf: '',
   })
   const [errors, setErrors] = React.useState<FormErrors>({})
   const [touched, setTouched] = React.useState<Record<string, boolean>>({})
@@ -52,6 +54,12 @@ export const useOnboarding = () => {
         newErrors.phone = phoneResult.error
       }
     }
+    if (touched.cpf) {
+      const cpfResult = validateCpf(formData.cpf)
+      if (!cpfResult.isValid && cpfResult.error) {
+        newErrors.cpf = cpfResult.error
+      }
+    }
     setErrors(newErrors)
   }, [formData, touched])
 
@@ -59,6 +67,8 @@ export const useOnboarding = () => {
     let processedValue = value
     if (field === 'phone') {
       processedValue = sanitizePhone(value)
+    } else if (field === 'cpf') {
+      processedValue = sanitizeCpf(value).slice(0, 11)
     }
     setFormData(prev => ({
       ...prev,
@@ -95,7 +105,9 @@ export const useOnboarding = () => {
   }
 
   const isValid =
-    validateName(formData.name).isValid && validatePhone(formData.phone).isValid
+    validateName(formData.name).isValid && 
+    validatePhone(formData.phone).isValid && 
+    validateCpf(formData.cpf).isValid
 
   return {
     formData,

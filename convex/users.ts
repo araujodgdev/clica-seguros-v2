@@ -37,13 +37,15 @@ export async function getCurrentUserOrThrow(ctx: QueryCtx) {
       const publicMetadata = data.public_metadata as any || {};
       const isOnboardingComplete = publicMetadata.onboardingComplete === true;
       
-      // Safely extract name and phone with proper type checking
+      // Safely extract name, phone, and cpf with proper type checking
       const metadataName = typeof publicMetadata.name === 'string' ? publicMetadata.name : null;
       const metadataPhone = typeof publicMetadata.phone === 'string' ? publicMetadata.phone : null;
+      const metadataCpf = typeof publicMetadata.cpf === 'string' ? publicMetadata.cpf : null;
       
       const userAttributes = {
         name: metadataName || `${data.first_name || ''} ${data.last_name || ''}`.trim(),
         phone: metadataPhone,
+        cpf: metadataCpf,
         externalId: data.id,
         onboardingCompleted: isOnboardingComplete,
         role: 'user' as const,
@@ -63,6 +65,11 @@ export async function getCurrentUserOrThrow(ctx: QueryCtx) {
         // Only include phone if it exists
         if (userAttributes.phone) {
           updateData.phone = userAttributes.phone;
+        }
+        
+        // Only include cpf if it exists
+        if (userAttributes.cpf) {
+          updateData.cpf = userAttributes.cpf;
         }
         
         await ctx.db.patch(user._id, updateData);
@@ -89,9 +96,10 @@ export async function getCurrentUserOrThrow(ctx: QueryCtx) {
   export const completeOnboarding = mutation({
     args: { 
       name: v.string(),
-      phone: v.string()
+      phone: v.string(),
+      cpf: v.string()
     },
-    async handler(ctx, { name, phone }) {
+    async handler(ctx, { name, phone, cpf }) {
       const identity = await ctx.auth.getUserIdentity();
       if (!identity) {
         throw new Error("Not authenticated");
@@ -106,6 +114,7 @@ export async function getCurrentUserOrThrow(ctx: QueryCtx) {
       await ctx.db.patch(user._id, {
         name,
         phone,
+        cpf,
         onboardingCompleted: true,
         role: 'user',
       });

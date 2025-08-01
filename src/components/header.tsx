@@ -255,10 +255,12 @@ function MegaMenu({ item, isOpen }: { item: typeof navLinks[0], isOpen: boolean 
                     Faça uma cotação rápida e descubra quanto pode economizar com nossos planos
                   </p>
                 </div>
-                <Button size="default" className="group whitespace-nowrap">
-                  Simular agora
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
+                <Link href="/simulacao">
+                  <Button size="default" className="group whitespace-nowrap">
+                    Simular agora
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </Link>
               </div>
             </motion.div>
           </div>
@@ -311,7 +313,7 @@ export function Header() {
           <span className="text-lg font-bold text-neutral-charcoal">
             Clica Seguros
           </span>
-          <Badge variant="primary" className="ml-2 hidden md:inline-flex">
+          <Badge variant="primary" className="text-white ml-2 hidden md:inline-flex">
             <Zap className="mr-1 h-3 w-3" />
             Novo
           </Badge>

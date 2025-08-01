@@ -18,9 +18,10 @@ export const completeOnboarding = async (formData: FormData) => {
   try {
     const name = formData.get('name') as string
     const phone = formData.get('phone') as string
+    const cpf = formData.get('cpf') as string
 
-    if (!name || !phone) {
-      return { error: 'Nome e telefone são obrigatórios' }
+    if (!name || !phone || !cpf) {
+      return { error: 'Nome, telefone e CPF são obrigatórios' }
     }
 
     // 1. Update Clerk publicMetadata (for session token)
@@ -29,6 +30,7 @@ export const completeOnboarding = async (formData: FormData) => {
         onboardingComplete: true,
         name: name,
         phone: phone,
+        cpf: cpf,
       },
     })
 
@@ -40,7 +42,8 @@ export const completeOnboarding = async (formData: FormData) => {
       // Call Convex mutation to complete onboarding
       await convex.mutation(api.users.completeOnboarding, {
         name,
-        phone
+        phone,
+        cpf
       })
     }
     

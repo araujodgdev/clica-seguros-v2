@@ -3,8 +3,9 @@
 import * as React from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { User, Phone, AlertCircle, CheckCircle } from 'lucide-react'
+import { User, Phone, CreditCard, AlertCircle, CheckCircle } from 'lucide-react'
 import { useOnboarding } from '@/lib/hooks/useOnboarding'
+import { formatCpfForDisplay } from '@/lib/validation/form-validation'
 
 const formatPhoneForDisplay = (phone: string) => {
   const cleaned = phone.replace(/\D/g, '')
@@ -162,6 +163,61 @@ export const OnboardingForm: React.FC = () => {
               <p className="flex items-center gap-1 text-sm text-red-500">
                 <AlertCircle className="h-4 w-4" />
                 {errors.phone}
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <label
+              htmlFor="cpf"
+              className="block text-sm font-semibold text-neutral-charcoal"
+            >
+              CPF
+            </label>
+            <div className="relative">
+              <div className="absolute left-4 top-1/2 z-10 -translate-y-1/2">
+                <CreditCard
+                  className={`h-5 w-5 ${
+                    getFieldStatus('cpf') === 'error'
+                      ? 'text-red-500'
+                      : getFieldStatus('cpf') === 'success'
+                      ? 'text-green-500'
+                      : 'text-neutral-medium-gray'
+                  }`}
+                />
+              </div>
+              <input
+                id="cpf"
+                name="cpf"
+                type="text"
+                value={formatCpfForDisplay(formData.cpf)}
+                onChange={e => handleInputChange('cpf', e.target.value)}
+                onBlur={() => handleInputBlur('cpf')}
+                placeholder="000.000.000-00"
+                required
+                className={`min-h-[48px] w-full rounded-xl border-2 bg-white/80 py-4 pl-12 pr-12 text-base text-neutral-charcoal outline-none transition-all duration-200 placeholder:text-neutral-medium-gray/60 focus:ring-2 backdrop-blur-sm ${
+                  getFieldStatus('cpf') === 'error'
+                    ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
+                    : getFieldStatus('cpf') === 'success'
+                    ? 'border-green-500 focus:border-green-500 focus:ring-green-500/20'
+                    : 'border-neutral-light-gray focus:border-primary focus:ring-primary/20'
+                }`}
+                disabled={isSubmitting}
+              />
+              {getFieldStatus('cpf') !== 'default' && (
+                <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                  {getFieldStatus('cpf') === 'error' ? (
+                    <AlertCircle className="h-5 w-5 text-red-500" />
+                  ) : (
+                    <CheckCircle className="h-5 w-5 text-green-500" />
+                  )}
+                </div>
+              )}
+            </div>
+            {errors.cpf && (
+              <p className="flex items-center gap-1 text-sm text-red-500">
+                <AlertCircle className="h-4 w-4" />
+                {errors.cpf}
               </p>
             )}
           </div>
