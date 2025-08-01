@@ -10,6 +10,7 @@ import { usePathname } from 'next/navigation'
 import { ClerkProvider } from '@clerk/nextjs'
 import ConvexClientProvider from "./ConvexClientProvider";
 import { useAuth } from "@clerk/nextjs";
+import { ptBR } from '@clerk/localizations'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,15 +43,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const pathname = usePathname()
-  const noHeaderRoutes = ['/dashboard', '/dashboard/perfil', '/dashboard/contratos', '/dashboard/suporte']
+  const shouldShowHeader = !pathname.startsWith('/dashboard') && !pathname.startsWith('/admin')
 
   return (
     <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}>
       <body>
-        <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}>
+        <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!} localization={ptBR}>
           <ConvexClientProvider>
             <QueryProvider>
-              {!noHeaderRoutes.includes(pathname) && <Header />}
+              {shouldShowHeader && <Header />}
               {children}
             </QueryProvider>
           </ConvexClientProvider>

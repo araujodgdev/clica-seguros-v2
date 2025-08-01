@@ -4,10 +4,9 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { User, FileText, LifeBuoy, LogOut, ChevronRight, Layers } from 'lucide-react'
+import { FileText, LifeBuoy, ChevronRight, Layers } from 'lucide-react'
 
 const navLinks = [
-  { href: '/dashboard/perfil', label: 'Perfil', icon: User },
   { href: '/dashboard/contratos', label: 'Contratos', icon: FileText },
   { href: '/dashboard/suporte', label: 'Suporte', icon: LifeBuoy },
 ]
@@ -51,25 +50,6 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div>
-        <div className="flex items-center justify-between p-2">
-          <div className="flex items-center gap-2 overflow-hidden">
-            <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
-              A
-            </div>
-            <div className="truncate">
-              <p className="font-semibold text-xs text-neutral-charcoal truncate">Alexandre</p>
-            </div>
-          </div>
-          <motion.div
-            className="p-2 rounded-lg cursor-pointer text-neutral-dark-gray hover:bg-neutral-light-gray/50 flex-shrink-0"
-            whileHover={{ scale: 1.1 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-          >
-            <LogOut className="w-5 h-5" />
-          </motion.div>
-        </div>
-      </div>
     </aside>
   )
 }

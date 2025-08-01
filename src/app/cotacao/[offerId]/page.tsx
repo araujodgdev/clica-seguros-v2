@@ -432,7 +432,16 @@ export default function OfferDetailsPage() {
                       </div>
                     </div>
                     
-                    <Button variant="default" size="lg" className="w-full mb-4">
+                    <Button 
+                      variant="default" 
+                      size="lg" 
+                      className="w-full mb-4"
+                      onClick={() => {
+                        // Check if user is logged in - for now we'll redirect to sign-up
+                        // In a real app, you'd check authentication state
+                        router.push('/sign-up')
+                      }}
+                    >
                       Contratar Agora
                     </Button>
                     

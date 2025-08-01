@@ -1,4 +1,4 @@
-import {internalMutation, query, QueryCtx} from './_generated/server'
+import {internalMutation, mutation, query, QueryCtx} from './_generated/server'
 import {UserJSON} from '@clerk/backend'
 import {v, Validator} from 'convex/values'
 
@@ -33,16 +33,39 @@ export async function getCurrentUserOrThrow(ctx: QueryCtx) {
   export const upsertFromClerk = internalMutation({
     args: { data: v.any() as Validator<UserJSON> }, // no runtime validation, trust Clerk
     async handler(ctx, { data }) {
+      // Extract data from publicMetadata if available
+      const publicMetadata = data.public_metadata as any || {};
+      const isOnboardingComplete = publicMetadata.onboardingComplete === true;
+      
+      // Safely extract name and phone with proper type checking
+      const metadataName = typeof publicMetadata.name === 'string' ? publicMetadata.name : null;
+      const metadataPhone = typeof publicMetadata.phone === 'string' ? publicMetadata.phone : null;
+      
       const userAttributes = {
-        name: `${data.first_name} ${data.last_name}`,
+        name: metadataName || `${data.first_name || ''} ${data.last_name || ''}`.trim(),
+        phone: metadataPhone,
         externalId: data.id,
+        onboardingCompleted: isOnboardingComplete,
+        role: 'user' as const,
       };
   
       const user = await userByExternalId(ctx, data.id);
       if (user === null) {
         await ctx.db.insert("users", userAttributes);
       } else {
-        await ctx.db.patch(user._id, userAttributes);
+        // Update user with data from Clerk, including publicMetadata
+        const updateData: any = {
+          name: userAttributes.name,
+          onboardingCompleted: userAttributes.onboardingCompleted,
+          role: userAttributes.role,
+        };
+        
+        // Only include phone if it exists
+        if (userAttributes.phone) {
+          updateData.phone = userAttributes.phone;
+        }
+        
+        await ctx.db.patch(user._id, updateData);
       }
     },
   });
@@ -59,5 +82,52 @@ export async function getCurrentUserOrThrow(ctx: QueryCtx) {
           `Can't delete user, there is none for Clerk user ID: ${clerkUserId}`,
         );
       }
+    },
+  });
+
+  // Complete user onboarding with additional information
+  export const completeOnboarding = mutation({
+    args: { 
+      name: v.string(),
+      phone: v.string()
+    },
+    async handler(ctx, { name, phone }) {
+      const identity = await ctx.auth.getUserIdentity();
+      if (!identity) {
+        throw new Error("Not authenticated");
+      }
+
+      const user = await userByExternalId(ctx, identity.subject);
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      // Update user with onboarding data
+      await ctx.db.patch(user._id, {
+        name,
+        phone,
+        onboardingCompleted: true,
+        role: 'user',
+      });
+
+      return user._id;
+    },
+  });
+
+  // Check if user needs onboarding
+  export const needsOnboarding = query({
+    args: {},
+    async handler(ctx) {
+      const identity = await ctx.auth.getUserIdentity();
+      if (!identity) {
+        return null;
+      }
+
+      const user = await userByExternalId(ctx, identity.subject);
+      if (!user) {
+        return null;
+      }
+
+      return !user.onboardingCompleted;
     },
   });

@@ -15,8 +15,6 @@ export class NavigationService {
    */
   static createQuoteResultsUrl(formData: FormData, carDetails: CarDetails): string {
     const searchParams = new URLSearchParams({
-      name: formData.name,
-      email: formData.email,
       licensePlate: formData.licensePlate,
       carMake: carDetails.make,
       carModel: carDetails.model,
@@ -35,28 +33,17 @@ export class NavigationService {
     isValid: boolean
     errors: string[]
     data?: {
-      name: string
-      email: string
       licensePlate: string
       carDetails?: CarDetails
     }
   } {
     const errors: string[] = []
     
-    // Get required parameters
-    const name = searchParams.get('name')
-    const email = searchParams.get('email')
+    // Get required parameters - only license plate is required now
     const licensePlate = searchParams.get('licensePlate')
     
     // Validate required parameters
-    if (!name) errors.push('Nome não encontrado')
-    if (!email) errors.push('Email não encontrado')
     if (!licensePlate) errors.push('Placa não encontrada')
-    
-    // Validate email format
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      errors.push('Email inválido')
-    }
     
     // Validate license plate format
     if (licensePlate) {
@@ -110,8 +97,6 @@ export class NavigationService {
       isValid: true,
       errors: [],
       data: {
-        name: name!,
-        email: email!,
         licensePlate: licensePlate!,
         carDetails
       }

@@ -428,7 +428,7 @@ function QuoteResultsContent() {
         setError(null)
 
         // Check if we have URL parameters (direct navigation with data)
-        const hasUrlParams = searchParams.has('name') || searchParams.has('email') || searchParams.has('licensePlate')
+        const hasUrlParams = searchParams.has('licensePlate')
         
         if (hasUrlParams) {
           // Use NavigationService to validate URL parameters
@@ -441,7 +441,7 @@ function QuoteResultsContent() {
             )
           }
 
-          const { name, email, licensePlate, carDetails: validatedCarDetails } = validation.data!
+          const { licensePlate, carDetails: validatedCarDetails } = validation.data!
 
           // Set car details if available from validation
           if (validatedCarDetails) {
@@ -628,61 +628,6 @@ function QuoteResultsContent() {
             Encontramos <span className="text-primary font-bold">{offers.length} opções exclusivas</span> de seguro 
             para o seu veículo. Compare benefícios e escolha a proteção perfeita.
           </motion.p>
-
-          {/* Enhanced stats row */}
-          <motion.div
-            className="flex flex-wrap justify-center gap-6 mt-8 mb-8"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.9 }}
-          >
-            {[
-              { label: 'Cotações', value: offers.length, icon: '📊' },
-              { label: 'Economia até', value: `R$ ${Math.max(...offers.map(o => o.savings))}`, icon: '💰' },
-              { label: 'Ativação', value: '24h', icon: '⚡' }
-            ].map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                className="bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 min-w-[140px]"
-                whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.15)' }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <div className="text-2xl mb-1">{stat.icon}</div>
-                <div className="text-2xl font-bold text-neutral-charcoal">{stat.value}</div>
-                <div className="text-sm text-neutral-medium-gray font-medium">{stat.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
-          
-          {/* Enhanced car details card */}
-          {carDetails && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.1, type: "spring", stiffness: 100 }}
-              className="mt-8"
-            >
-              <div 
-                className="inline-flex items-center gap-4 bg-white rounded-2xl shadow-lg border border-neutral-light-gray/50 p-4 sm:p-6 hover:scale-105 transition-all duration-300 cursor-pointer"
-              >
-                <motion.div
-                  animate={{ rotate: [0, 5, -5, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                  className="text-3xl"
-                >
-                  🚗
-                </motion.div>
-                <div className="text-left">
-                  <div className="text-neutral-charcoal font-bold text-lg">
-                    {carDetails.make} {carDetails.model}
-                  </div>
-                  <div className="text-neutral-medium-gray text-sm">
-                    {carDetails.year} • Valor: R$ {carDetails.estimatedValue.toLocaleString('pt-BR')}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
         </motion.div>
 
         {/* Offers Grid */}
@@ -730,7 +675,6 @@ function QuoteResultsContent() {
                 transition={{ type: "spring", stiffness: 300 }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                delay={{ delay: 1 + index * 0.1 }}
               >
                 <div className="text-2xl mb-2">{item.icon}</div>
                 <div className="text-white font-semibold text-sm">{item.label}</div>

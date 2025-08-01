@@ -20,8 +20,6 @@ interface InitialFormProps {
 }
 
 interface FormErrors {
-  name?: string
-  email?: string
   licensePlate?: string
 }
 
@@ -33,37 +31,19 @@ export function InitialForm({ onSubmit, isLoading = false }: InitialFormProps) {
   })
   
   const [errors, setErrors] = useState<FormErrors>({})
-  const [touched, setTouched] = useState<Record<keyof FormData, boolean>>({
-    name: false,
-    email: false,
+  const [touched, setTouched] = useState<Record<'licensePlate', boolean>>({
     licensePlate: false
   })
   
   const [isValid, setIsValid] = useState(false)
   
   // Refs for focus management
-  const nameInputRef = useRef<HTMLInputElement>(null)
-  const emailInputRef = useRef<HTMLInputElement>(null)
   const plateInputRef = useRef<HTMLInputElement>(null)
   const submitButtonRef = useRef<HTMLButtonElement>(null)
 
   // Real-time validation
   useEffect(() => {
     const newErrors: FormErrors = {}
-    
-    if (touched.name) {
-      const nameResult = validateName(formData.name)
-      if (!nameResult.isValid && nameResult.error) {
-        newErrors.name = nameResult.error
-      }
-    }
-    
-    if (touched.email) {
-      const emailResult = validateEmail(formData.email)
-      if (!emailResult.isValid && emailResult.error) {
-        newErrors.email = emailResult.error
-      }
-    }
     
     if (touched.licensePlate) {
       const licensePlateResult = validateLicensePlate(formData.licensePlate)
@@ -74,20 +54,16 @@ export function InitialForm({ onSubmit, isLoading = false }: InitialFormProps) {
     
     setErrors(newErrors)
     
-    // Check if form is valid
-    const nameValid = validateName(formData.name).isValid
-    const emailValid = validateEmail(formData.email).isValid
+    // Check if form is valid (only license plate required now)
     const licensePlateValid = validateLicensePlate(formData.licensePlate).isValid
     
-    setIsValid(nameValid && emailValid && licensePlateValid)
+    setIsValid(licensePlateValid)
   }, [formData, touched])
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     let processedValue = value
     
-    if (field === 'email') {
-      processedValue = value.toLowerCase()
-    } else if (field === 'licensePlate') {
+    if (field === 'licensePlate') {
       processedValue = sanitizeLicensePlate(value)
     }
     
@@ -97,28 +73,18 @@ export function InitialForm({ onSubmit, isLoading = false }: InitialFormProps) {
     }))
   }
 
-  const handleInputBlur = (field: keyof FormData) => {
+  const handleInputBlur = (field: 'licensePlate') => {
     setTouched(prev => ({
       ...prev,
       [field]: true
     }))
-    
-    // Apply sanitization on blur for name field
-    if (field === 'name') {
-      setFormData(prev => ({
-        ...prev,
-        name: sanitizeString(prev.name)
-      }))
-    }
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     
-    // Mark all fields as touched
+    // Mark license plate field as touched
     setTouched({
-      name: true,
-      email: true,
       licensePlate: true
     })
     
@@ -128,16 +94,12 @@ export function InitialForm({ onSubmit, isLoading = false }: InitialFormProps) {
   }
 
   // Enhanced keyboard navigation with focus management
-  const handleKeyDown = (e: React.KeyboardEvent, field: keyof FormData) => {
+  const handleKeyDown = (e: React.KeyboardEvent, field: 'licensePlate') => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
       
-      // Move to next field or submit if on last field
-      if (field === 'name') {
-        emailInputRef.current?.focus()
-      } else if (field === 'email') {
-        plateInputRef.current?.focus()
-      } else if (field === 'licensePlate' && isValid) {
+      // Submit if valid
+      if (field === 'licensePlate' && isValid) {
         submitButtonRef.current?.focus()
         handleSubmit(e as any)
       }
@@ -158,26 +120,13 @@ export function InitialForm({ onSubmit, isLoading = false }: InitialFormProps) {
 
   // Focus management for accessibility
   useEffect(() => {
-    // Focus first input on component mount
-    if (nameInputRef.current && !isLoading) {
-      nameInputRef.current.focus()
+    // Focus plate input on component mount
+    if (plateInputRef.current && !isLoading) {
+      plateInputRef.current.focus()
     }
   }, [isLoading])
 
-  // Announce form validation status to screen readers
-  const announceValidationStatus = (field: keyof FormData, status: 'error' | 'success' | 'default') => {
-    if (status === 'error' && errors[field]) {
-      // Screen reader will announce the error via aria-describedby and role="alert"
-      return
-    }
-    if (status === 'success') {
-      // Announce success state for screen readers
-      const successMessage = `${field === 'name' ? 'Nome' : field === 'email' ? 'E-mail' : 'Placa'} válido`
-      // This could be enhanced with a live region if needed
-    }
-  }
-
-  const getFieldStatus = (field: keyof FormData): 'default' | 'error' | 'success' => {
+  const getFieldStatus = (field: 'licensePlate'): 'default' | 'error' | 'success' => {
     if (!touched[field]) return 'default'
     return errors[field] ? 'error' : 'success'
   }
@@ -196,135 +145,11 @@ export function InitialForm({ onSubmit, isLoading = false }: InitialFormProps) {
             Comece sua simulação
           </h3>
           <p className="text-sm sm:text-base text-neutral-medium-gray">
-            Preencha seus dados para continuar
+            Digite a placa do seu veículo para continuar
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6" role="form" aria-label="Formulário de simulação de seguro">
-          {/* Name Field */}
-          <div className="space-y-2">
-            <label 
-              htmlFor="name"
-              className="block text-sm font-semibold text-neutral-charcoal"
-            >
-              Nome completo
-            </label>
-            <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
-                <User className={`h-5 w-5 ${
-                  getFieldStatus('name') === 'error' ? 'text-red-500' :
-                  getFieldStatus('name') === 'success' ? 'text-green-500' :
-                  'text-neutral-medium-gray'
-                }`} />
-              </div>
-              <motion.input
-                ref={nameInputRef}
-                id="name"
-                type="text"
-                value={formData.name}
-                onChange={(e) => handleInputChange('name', e.target.value)}
-                onBlur={() => handleInputBlur('name')}
-                onKeyDown={(e) => handleKeyDown(e, 'name')}
-                placeholder="Digite seu nome completo"
-                aria-label="Nome completo"
-                aria-describedby={errors.name ? "name-error" : undefined}
-                aria-invalid={getFieldStatus('name') === 'error'}
-                aria-required="true"
-                className={`w-full pl-12 pr-12 py-4 sm:py-4 min-h-[48px] rounded-xl border-2 bg-white/80 backdrop-blur-sm text-neutral-charcoal placeholder:text-neutral-medium-gray/60 outline-none transition-all duration-200 text-base sm:text-sm ${
-                  getFieldStatus('name') === 'error' 
-                    ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20' :
-                  getFieldStatus('name') === 'success'
-                    ? 'border-green-500 focus:border-green-500 focus:ring-2 focus:ring-green-500/20' :
-                    'border-neutral-light-gray focus:border-primary focus:ring-2 focus:ring-primary/20'
-                }`}
-                disabled={isLoading}
-              />
-              {getFieldStatus('name') !== 'default' && (
-                <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                  {getFieldStatus('name') === 'error' ? (
-                    <AlertCircle className="h-5 w-5 text-red-500" />
-                  ) : (
-                    <CheckCircle className="h-5 w-5 text-green-500" />
-                  )}
-                </div>
-              )}
-            </div>
-            {errors.name && (
-              <motion.p
-                id="name-error"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-sm text-red-500 flex items-center gap-1"
-                role="alert"
-              >
-                <AlertCircle className="h-4 w-4" />
-                {errors.name}
-              </motion.p>
-            )}
-          </div>
-
-          {/* Email Field */}
-          <div className="space-y-2">
-            <label 
-              htmlFor="email"
-              className="block text-sm font-semibold text-neutral-charcoal"
-            >
-              E-mail
-            </label>
-            <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
-                <Mail className={`h-5 w-5 ${
-                  getFieldStatus('email') === 'error' ? 'text-red-500' :
-                  getFieldStatus('email') === 'success' ? 'text-green-500' :
-                  'text-neutral-medium-gray'
-                }`} />
-              </div>
-              <motion.input
-                ref={emailInputRef}
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
-                onBlur={() => handleInputBlur('email')}
-                onKeyDown={(e) => handleKeyDown(e, 'email')}
-                placeholder="seu@email.com"
-                aria-label="E-mail"
-                aria-describedby={errors.email ? "email-error" : undefined}
-                aria-invalid={getFieldStatus('email') === 'error'}
-                aria-required="true"
-                className={`w-full pl-12 pr-12 py-4 sm:py-4 min-h-[48px] rounded-xl border-2 bg-white/80 backdrop-blur-sm text-neutral-charcoal placeholder:text-neutral-medium-gray/60 outline-none transition-all duration-200 text-base sm:text-sm ${
-                  getFieldStatus('email') === 'error' 
-                    ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20' :
-                  getFieldStatus('email') === 'success'
-                    ? 'border-green-500 focus:border-green-500 focus:ring-2 focus:ring-green-500/20' :
-                    'border-neutral-light-gray focus:border-primary focus:ring-2 focus:ring-primary/20'
-                }`}
-                disabled={isLoading}
-              />
-              {getFieldStatus('email') !== 'default' && (
-                <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                  {getFieldStatus('email') === 'error' ? (
-                    <AlertCircle className="h-5 w-5 text-red-500" />
-                  ) : (
-                    <CheckCircle className="h-5 w-5 text-green-500" />
-                  )}
-                </div>
-              )}
-            </div>
-            {errors.email && (
-              <motion.p
-                id="email-error"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-sm text-red-500 flex items-center gap-1"
-                role="alert"
-              >
-                <AlertCircle className="h-4 w-4" />
-                {errors.email}
-              </motion.p>
-            )}
-          </div>
-
           {/* License Plate Field */}
           <div className="space-y-2">
             <label 
@@ -413,7 +238,7 @@ export function InitialForm({ onSubmit, isLoading = false }: InitialFormProps) {
             aria-live="polite" 
             aria-atomic="true"
           >
-            {isValid ? 'Formulário válido, pronto para enviar' : 'Preencha todos os campos corretamente'}
+            {isValid ? 'Placa válida, pronto para enviar' : 'Digite uma placa válida'}
           </div>
 
           {/* Benefits */}

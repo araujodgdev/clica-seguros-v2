@@ -369,7 +369,7 @@ export function Header() {
           
           {/* CTA Buttons */}
           <div className="hidden items-center space-x-4 md:flex">
-            <Link href="/auth">
+            <Link href="/sign-in">
               <Button variant="default" className="group hover:cursor-pointer">
                 <User className="mr-2 h-4 w-4" />
                 Entrar
