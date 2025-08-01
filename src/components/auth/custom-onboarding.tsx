@@ -18,11 +18,13 @@ interface CustomOnboardingProps {
 interface FormErrors {
   name?: string
   phone?: string
+  cpf?: string
 }
 
 interface FormData {
   name: string
   phone: string
+  cpf: string
 }
 
 // Phone validation function
@@ -39,6 +41,24 @@ const validatePhone = (phone: string) => {
     isValid: false, 
     error: 'Digite um telefone válido (10 ou 11 dígitos)' 
   }
+}
+
+// CPF validation function
+const validateCPF = (cpf: string) => {
+  // Remove any non-numeric characters
+  const cleaned = cpf.replace(/\D/g, '')
+  
+  // Check length
+  if (cleaned.length !== 11) {
+    return { isValid: false, error: 'CPF deve ter 11 dígitos' }
+  }
+  
+  // Check if all digits are the same
+  if (/^(\d)\1{10}$/.test(cleaned)) {
+    return { isValid: false, error: 'CPF inválido' }
+  }
+  
+  return { isValid: true, error: null }
 }
 
 // Format phone number for display
@@ -61,16 +81,38 @@ const sanitizePhone = (phone: string) => {
   return phone.replace(/\D/g, '').slice(0, 11)
 }
 
+// Format CPF for display
+const formatCPFForDisplay = (cpf: string) => {
+  const cleaned = cpf.replace(/\D/g, '')
+  
+  if (cleaned.length <= 3) {
+    return cleaned
+  } else if (cleaned.length <= 6) {
+    return `${cleaned.slice(0, 3)}.${cleaned.slice(3)}`
+  } else if (cleaned.length <= 9) {
+    return `${cleaned.slice(0, 3)}.${cleaned.slice(3, 6)}.${cleaned.slice(6)}`
+  } else {
+    return `${cleaned.slice(0, 3)}.${cleaned.slice(3, 6)}.${cleaned.slice(6, 9)}-${cleaned.slice(9, 11)}`
+  }
+}
+
+// Sanitize CPF for storage
+const sanitizeCPF = (cpf: string) => {
+  return cpf.replace(/\D/g, '').slice(0, 11)
+}
+
 export function CustomOnboarding({ onComplete }: CustomOnboardingProps) {
   const [formData, setFormData] = useState<FormData>({
     name: '',
-    phone: ''
+    phone: '',
+    cpf: ''
   })
   
   const [errors, setErrors] = useState<FormErrors>({})
   const [touched, setTouched] = useState<Record<keyof FormData, boolean>>({
     name: false,
-    phone: false
+    phone: false,
+    cpf: false
   })
   
   const [isValid, setIsValid] = useState(false)
@@ -79,6 +121,7 @@ export function CustomOnboarding({ onComplete }: CustomOnboardingProps) {
   // Refs for focus management
   const nameInputRef = useRef<HTMLInputElement>(null)
   const phoneInputRef = useRef<HTMLInputElement>(null)
+  const cpfInputRef = useRef<HTMLInputElement>(null)
   const submitButtonRef = useRef<HTMLButtonElement>(null)
 
   // Convex mutation
@@ -102,13 +145,21 @@ export function CustomOnboarding({ onComplete }: CustomOnboardingProps) {
       }
     }
     
+    if (touched.cpf) {
+      const cpfResult = validateCPF(formData.cpf)
+      if (!cpfResult.isValid && cpfResult.error) {
+        newErrors.cpf = cpfResult.error
+      }
+    }
+    
     setErrors(newErrors)
     
     // Check if form is valid
     const nameValid = validateName(formData.name).isValid
     const phoneValid = validatePhone(formData.phone).isValid
+    const cpfValid = validateCPF(formData.cpf).isValid
     
-    setIsValid(nameValid && phoneValid)
+    setIsValid(nameValid && phoneValid && cpfValid)
   }, [formData, touched])
 
   const handleInputChange = (field: keyof FormData, value: string) => {
@@ -116,6 +167,8 @@ export function CustomOnboarding({ onComplete }: CustomOnboardingProps) {
     
     if (field === 'phone') {
       processedValue = sanitizePhone(value)
+    } else if (field === 'cpf') {
+      processedValue = sanitizeCPF(value)
     }
     
     setFormData(prev => ({
@@ -145,7 +198,8 @@ export function CustomOnboarding({ onComplete }: CustomOnboardingProps) {
     // Mark all fields as touched
     setTouched({
       name: true,
-      phone: true
+      phone: true,
+      cpf: true
     })
     
     if (!isValid || isSubmitting) return
@@ -156,7 +210,8 @@ export function CustomOnboarding({ onComplete }: CustomOnboardingProps) {
       // Call Convex mutation to complete onboarding
       await completeOnboarding({
         name: formData.name,
-        phone: formData.phone
+        phone: formData.phone,
+        cpf: formData.cpf
       })
       
       // Call completion callback

@@ -87,7 +87,7 @@ export function useSimulationCache() {
         error: query.state.error,
         dataUpdatedAt: query.state.dataUpdatedAt,
         errorUpdatedAt: query.state.errorUpdatedAt,
-        isStale: queryClient.getQueryState(queryKey)?.isStale
+        isStale: false // isStale is not available in QueryState, defaulting to false
       } : null
     },
 
