@@ -9,14 +9,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#52C41A',
+        primary: '#4667ff',
+        'secondary': '#1008ad',
+        'dark': '#000762',
         'neutral-off-white': '#F8F8F6',
         'neutral-light-gray': '#E8E8E6',
         'neutral-medium-gray': '#A8A8A6',
         'neutral-dark-gray': '#2A2A28',
         'neutral-charcoal': '#1A1A18',
-        'accent-forest-green': '#2D5233',
-        'accent-emerald-green': '#3A6B42',
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],

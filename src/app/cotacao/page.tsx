@@ -250,7 +250,7 @@ function OfferCard({ offer, carDetails, index }: { offer: InsuranceOffer; carDet
           <div className="flex items-start justify-between mb-4">
             <motion.h3 
               className="text-xl font-bold text-neutral-charcoal leading-tight"
-              animate={{ color: isHovered ? '#52C41A' : '#2C2C2C' }}
+              animate={{ color: isHovered ? '#4667ff' : '#2C2C2C' }}
               transition={{ duration: 0.2 }}
             >
               {offer.insurerName}

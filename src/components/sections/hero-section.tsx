@@ -235,10 +235,10 @@ export function HeroSection() {
               floatIntensity={20}
             >
               <motion.div 
-                className="cursor-pointer rounded-2xl bg-neutral-charcoal p-6 text-white shadow-2xl transition-all hover:scale-105"
+                className="cursor-pointer bg-[#000762] rounded-2xl bg-neutral-charcoal p-6 text-white shadow-2xl transition-all hover:scale-105"
                 whileHover={{ rotate: 2 }}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 ">
                   <Zap className="h-8 w-8 text-primary" />
                   <div>
                     <p className="text-sm opacity-80">Cobertura</p>
@@ -258,7 +258,7 @@ export function HeroSection() {
                 className="cursor-pointer rounded-2xl bg-primary p-6 text-black shadow-2xl transition-all hover:scale-105"
                 whileHover={{ rotate: 2 }}
               >
-                <div className="flex items-center gap-3 font-bold">
+                <div className="flex items-center gap-3 text-white font-bold">
                   <span>PIX | Boleto | Cartão</span>
                 </div>
               </motion.div>

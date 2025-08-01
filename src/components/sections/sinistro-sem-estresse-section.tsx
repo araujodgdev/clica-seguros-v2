@@ -91,8 +91,8 @@ function PhoneMockup({ step, isActive }: { step: typeof steps[0], isActive: bool
           </div>
           
           {/* App header */}
-          <div className="bg-primary p-4">
-            <h4 className="text-center text-lg font-bold text-neutral-charcoal">ClicaSeguros</h4>
+          <div className="bg-primary p-4 rounded-md">
+            <h4 className="text-center text-lg font-bold text-neutral-charcoal text-white">Clica Seguros</h4>
           </div>
           
           {/* Progress bar */}
@@ -103,7 +103,7 @@ function PhoneMockup({ step, isActive }: { step: typeof steps[0], isActive: bool
                   key={i}
                   className="h-1 flex-1 rounded-full bg-neutral-light-gray"
                   animate={{
-                    backgroundColor: i <= step.id ? '#52C41A' : '#E8E8E6'
+                    backgroundColor: i <= step.id ? '#4667ff' : '#E8E8E6'
                   }}
                   transition={{ duration: 0.3 }}
                 />

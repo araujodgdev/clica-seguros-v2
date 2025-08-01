@@ -27,6 +27,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import Image from 'next/image'
 
 const navLinks = [
   { 
@@ -305,18 +306,16 @@ export function Header() {
         {/* Logo with animation */}
         <Link href="/" className="group flex items-center space-x-2">
           <motion.div
-            whileHover={{ rotate: 180 }}
             transition={{ duration: 0.5 }}
           >
-            <Layers className="h-8 w-8 text-neutral-charcoal" />
+            <Image
+              src="/Clica Seguros.png"
+              alt="Clica Seguros Logo"
+              width={100}
+              height={100}
+              className="h-24 w-24"
+            />
           </motion.div>
-          <span className="text-lg font-bold text-neutral-charcoal">
-            Clica Seguros
-          </span>
-          <Badge variant="primary" className="text-white ml-2 hidden md:inline-flex">
-            <Zap className="mr-1 h-3 w-3" />
-            Novo
-          </Badge>
         </Link>
 
         {/* Desktop Navigation */}
